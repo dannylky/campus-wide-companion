@@ -31,6 +31,17 @@ npm start               # http://127.0.0.1:8090
 
 The default host is the synthetic campus in `config/public/campus.json`, so the dashboard works offline.
 
+### Windows launcher
+
+Double-click `start.bat`, or run it from a terminal:
+
+```bat
+start.bat
+start.bat 8091
+```
+
+It checks for Node.js, starts the server, and opens the dashboard. Set `NO_BROWSER=1` to skip opening the browser. If `.env` is missing it uses the synthetic campus and the offline AI fallback.
+
 To point it at a live Companion instance:
 
 ```bash
