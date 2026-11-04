@@ -45,6 +45,21 @@ function mapHost(host) {
   return hostMap.get(host);
 }
 
+const baseMap = new Map();
+for (const [oldId, newId] of idMap) {
+  baseMap.set(oldId.replace(/-[LR]$/, ''), newId.replace(/-[LR]$/, ''));
+}
+
+function mapVariable(name) {
+  if (!name) return null;
+  const isPcu = name.endsWith('PCU');
+  const base = isPcu ? name.slice(0, -3) : name;
+  const mapped = idMap.get(base) || baseMap.get(base) || base;
+  return isPcu ? `${mapped}PCU` : mapped;
+}
+
+const SAFE_NOTES = new Set(['No VS/AMP connected', 'Dual projector space', 'Suspended for renovation']);
+
 function mapLabel(label, space) {
   const newId = idMap.get(space.id) || 'X100';
   const oldBase = space.base || space.id;
@@ -107,11 +122,11 @@ const spaces = registry.spaces.map((space, index) => {
     roomType: space.roomType,
     devices,
     variables: {
-      state: space.variables?.state ? (idMap.get(space.variables.state) || space.variables.state) : null,
-      pcu: space.variables?.pcu ? (idMap.get(space.variables.pcu) || space.variables.pcu) : null,
+      state: mapVariable(space.variables?.state),
+      pcu: mapVariable(space.variables?.pcu),
     },
     capabilities: space.capabilities,
-    notes: (space.notes || []).filter((note) => !/^\d+\.\d+\.\d+\.\d+/.test(note)),
+    notes: (space.notes || []).filter((note) => SAFE_NOTES.has(note)),
   };
 });
 
