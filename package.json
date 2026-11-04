@@ -1,0 +1,28 @@
+{
+  "name": "campus-wide-companion",
+  "version": "0.1.0",
+  "description": "Read-only campus-wide Bitfocus Companion operations dashboard, AV knowledge base, and dynamic config build engine.",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test",
+    "extract": "node tools/extract-inventory.mjs",
+    "sanitize": "node tools/sanitize.mjs",
+    "preview": "node tools/build-preview.mjs"
+  },
+  "keywords": [
+    "bitfocus",
+    "companion",
+    "av",
+    "campus",
+    "dashboard",
+    "pjlink",
+    "knowledge-base"
+  ]
+}

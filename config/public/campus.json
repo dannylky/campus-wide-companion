@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-04T00:00:00.000Z",
+  "synthetic": true,
+  "source": {
+    "companion": "synthetic://campus",
+    "build": "4.2.5+8815-stable-synthetic",
+    "schema": 9,
+    "readOnly": true
+  },
+  "operatingHours": {
+    "connectionsOff": "00:00",
+    "connectionsOn": "07:35",
+    "timezone": "Asia/Hong_Kong"
+  },
+  "defaults": {
+    "volume": {
+      "default": -10,
+      "min": -17,
+      "max": 0
+    },
+    "sources": ["PC", "Laptop", "VGA"]
+  },
+  "groups": [
+    {
+      "id": "page-1",
+      "name": "Block X 1/F (3 Rooms)",
+      "page": 1,
+      "block": "X",
+      "floor": "1/F",
+      "roomCount": 3
+    },
+    {
+      "id": "page-2",
+      "name": "Block Y 2/F (3 Rooms)",
+      "page": 2,
+      "block": "Y",
+      "floor": "2/F",
+      "roomCount": 3
+    },
+    {
+      "id": "page-3",
+      "name": "Block Z (2 Rooms)",
+      "page": 3,
+      "block": "Z",
+      "floor": "Z",
+      "roomCount": 2
+    }
+  ],
+  "spaces": [
+    {
+      "id": "X101",
+      "name": "X101",
+      "base": "X101",
+      "group": "page-1",
+      "page": 1,
+      "column": 1,
+      "lifecycle": "active",
+      "roomType": "projector+VS+AMP+PCU+switch+controller",
+      "devices": {
+        "projectors": [
+          {
+            "label": "X101-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": {
+          "label": "X101-VS",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "192.0.2.111",
+          "port": "5000"
+        },
+        "amp": {
+          "label": "X101-AMP",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "192.0.2.121",
+          "port": "5000"
+        },
+        "pcu": {
+          "label": "X101-PCU",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "192.0.2.31",
+          "port": "23"
+        },
+        "controller": {
+          "label": "X101-Controller-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "192.0.2.51",
+          "port": "3629"
+        },
+        "switch": {
+          "label": "X101-Switch-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "192.0.2.11",
+          "port": ""
+        }
+      },
+      "variables": {
+        "state": "X101",
+        "pcu": "X101PCU"
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": true,
+        "amp": true,
+        "pcu": true,
+        "controller": true,
+        "switch": true,
+        "volume": true,
+        "source": true
+      },
+      "notes": []
+    },
+    {
+      "id": "X102",
+      "name": "X102",
+      "base": "X102",
+      "group": "page-1",
+      "page": 1,
+      "column": 2,
+      "lifecycle": "active",
+      "roomType": "projector",
+      "devices": {
+        "projectors": [
+          {
+            "label": "X102-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": null,
+        "amp": null,
+        "pcu": null,
+        "controller": null,
+        "switch": null
+      },
+      "variables": {
+        "state": null,
+        "pcu": null
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": false,
+        "amp": false,
+        "pcu": false,
+        "controller": false,
+        "switch": false,
+        "volume": false,
+        "source": false
+      },
+      "notes": ["No VS/AMP connected"]
+    },
+    {
+      "id": "X103",
+      "name": "X103",
+      "base": "X103",
+      "group": "page-1",
+      "page": 1,
+      "column": 3,
+      "lifecycle": "active",
+      "roomType": "projector+VS+switch",
+      "devices": {
+        "projectors": [
+          {
+            "label": "X103-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": {
+          "label": "X103-VS",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "192.0.2.113",
+          "port": "5000"
+        },
+        "amp": null,
+        "pcu": null,
+        "controller": null,
+        "switch": {
+          "label": "X103-Switch-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "192.0.2.13",
+          "port": ""
+        }
+      },
+      "variables": {
+        "state": "X103",
+        "pcu": null
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": true,
+        "amp": false,
+        "pcu": false,
+        "controller": false,
+        "switch": true,
+        "volume": false,
+        "source": true
+      },
+      "notes": []
+    },
+    {
+      "id": "Y201",
+      "name": "Y201",
+      "base": "Y201",
+      "group": "page-2",
+      "page": 2,
+      "column": 1,
+      "lifecycle": "active",
+      "roomType": "projector+VS+PCU+switch",
+      "devices": {
+        "projectors": [
+          {
+            "label": "Y201-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": {
+          "label": "Y201-VS",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "198.51.100.111",
+          "port": "5000"
+        },
+        "amp": null,
+        "pcu": {
+          "label": "Y201-PCU",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "198.51.100.31",
+          "port": "23"
+        },
+        "controller": null,
+        "switch": {
+          "label": "Y201-Switch-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "198.51.100.11",
+          "port": ""
+        }
+      },
+      "variables": {
+        "state": "Y201",
+        "pcu": "Y201PCU"
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": true,
+        "amp": false,
+        "pcu": true,
+        "controller": false,
+        "switch": true,
+        "volume": false,
+        "source": true
+      },
+      "notes": []
+    },
+    {
+      "id": "Y202",
+      "name": "Y202",
+      "base": "Y202",
+      "group": "page-2",
+      "page": 2,
+      "column": 2,
+      "lifecycle": "active",
+      "roomType": "projector+VS+AMP+PCU+controller",
+      "devices": {
+        "projectors": [
+          {
+            "label": "Y202-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": {
+          "label": "Y202-VS",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "198.51.100.112",
+          "port": "5000"
+        },
+        "amp": {
+          "label": "Y202-AMP",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "198.51.100.122",
+          "port": "5000"
+        },
+        "pcu": {
+          "label": "Y202-PCU",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "198.51.100.32",
+          "port": "23"
+        },
+        "controller": {
+          "label": "Y202-Controller-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "198.51.100.52",
+          "port": "3629"
+        },
+        "switch": null
+      },
+      "variables": {
+        "state": "Y202",
+        "pcu": "Y202PCU"
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": true,
+        "amp": true,
+        "pcu": true,
+        "controller": true,
+        "switch": false,
+        "volume": true,
+        "source": true
+      },
+      "notes": []
+    },
+    {
+      "id": "Y203",
+      "name": "Y203",
+      "base": "Y203",
+      "group": "page-2",
+      "page": 2,
+      "column": 3,
+      "lifecycle": "active",
+      "roomType": "projector+switch",
+      "devices": {
+        "projectors": [
+          {
+            "label": "Y203-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": null,
+        "amp": null,
+        "pcu": null,
+        "controller": null,
+        "switch": {
+          "label": "Y203-Switch-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "198.51.100.13",
+          "port": ""
+        }
+      },
+      "variables": {
+        "state": null,
+        "pcu": null
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": false,
+        "amp": false,
+        "pcu": false,
+        "controller": false,
+        "switch": true,
+        "volume": false,
+        "source": false
+      },
+      "notes": ["No VS/AMP connected"]
+    },
+    {
+      "id": "Z301",
+      "name": "Z301",
+      "base": "Z301",
+      "group": "page-3",
+      "page": null,
+      "column": null,
+      "lifecycle": "suspended",
+      "roomType": "suspended",
+      "devices": {
+        "projectors": [],
+        "vs": null,
+        "amp": null,
+        "pcu": null,
+        "controller": null,
+        "switch": null
+      },
+      "variables": {
+        "state": null,
+        "pcu": null
+      },
+      "capabilities": {
+        "projector": false,
+        "dualProjector": false,
+        "vs": false,
+        "amp": false,
+        "pcu": false,
+        "controller": false,
+        "switch": false,
+        "volume": false,
+        "source": false
+      },
+      "notes": ["Suspended for renovation"]
+    },
+    {
+      "id": "Z302",
+      "name": "Z302",
+      "base": "Z302",
+      "group": "page-3",
+      "page": 3,
+      "column": 1,
+      "lifecycle": "active",
+      "roomType": "projector+PCU+controller",
+      "devices": {
+        "projectors": [
+          {
+            "label": "Z302-pjlink",
+            "position": "main",
+            "enabled": true,
+            "module": "generic-pjlink"
+          }
+        ],
+        "vs": null,
+        "amp": null,
+        "pcu": {
+          "label": "Z302-PCU",
+          "module": "generic-tcp-udp",
+          "enabled": true,
+          "host": "203.0.113.32",
+          "port": "23"
+        },
+        "controller": {
+          "label": "Z302-Controller-ping",
+          "module": "generic-ping",
+          "enabled": true,
+          "host": "203.0.113.52",
+          "port": "3629"
+        },
+        "switch": null
+      },
+      "variables": {
+        "state": "Z302",
+        "pcu": "Z302PCU"
+      },
+      "capabilities": {
+        "projector": true,
+        "dualProjector": false,
+        "vs": false,
+        "amp": false,
+        "pcu": true,
+        "controller": true,
+        "switch": false,
+        "volume": false,
+        "source": false
+      },
+      "notes": ["No VS/AMP connected"]
+    }
+  ],
+  "diagnostics": {
+    "ignoredConnections": [],
+    "unmappedConnections": [],
+    "canonicalCollisions": []
+  }
+}

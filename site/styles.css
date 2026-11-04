@@ -1,0 +1,93 @@
+:root {
+  --bg: #0b1117;
+  --panel: #111a23;
+  --border: #1f2a37;
+  --text: #e6edf3;
+  --muted: #8b98a5;
+  --accent: #58a6ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(1000px 500px at 15% -10%, #12202e 0%, var(--bg) 60%) fixed;
+  color: var(--text);
+  font: 16px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+main { max-width: 980px; margin: 0 auto; padding: 56px 22px 40px; }
+
+.hero { text-align: center; padding: 30px 0 40px; }
+
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1f6feb, #58a6ff);
+  color: #04121f;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+h1 { font-size: 40px; margin: 0 0 12px; letter-spacing: -0.5px; }
+.lede { color: var(--muted); max-width: 640px; margin: 0 auto 24px; }
+
+.actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 16px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--panel);
+}
+.btn:hover { border-color: #33506b; }
+.btn.primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+.btn.primary:hover { background: #2f7ff5; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 30px 0;
+}
+
+article {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+article h2 { font-size: 16px; margin: 0 0 8px; }
+article p { color: var(--muted); font-size: 14px; margin: 0; }
+
+.docs { margin-top: 34px; }
+.docs h2 { font-size: 18px; }
+.docs ul { columns: 2; gap: 24px; padding-left: 20px; }
+.docs a { color: var(--accent); text-decoration: none; }
+.docs a:hover { text-decoration: underline; }
+.docs li { margin: 6px 0; break-inside: avoid; }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  padding-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 30px; }
+  .docs ul { columns: 1; }
+}

@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-04T00:00:00.000Z",
+  "modules": [
+    {
+      "id": "generic-pjlink",
+      "name": "Generic PJLink",
+      "category": "Projector",
+      "protocol": "PJLink over TCP (default 4352)",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Target Port", "type": "number", "default": 4352 }
+      ],
+      "actions": [
+        { "id": "powerOn", "label": "Power On" },
+        { "id": "powerOff", "label": "Power Off" },
+        { "id": "muteOn", "label": "Blank On" },
+        { "id": "muteOff", "label": "Blank Off" },
+        { "id": "freezeOn", "label": "Freeze On" },
+        { "id": "freezeOff", "label": "Freeze Off" },
+        { "id": "input", "label": "Select Input", "options": ["input"] }
+      ],
+      "feedbacks": [
+        { "id": "power", "label": "Power State" },
+        { "id": "mute", "label": "Blank State" },
+        { "id": "freeze", "label": "Freeze State" }
+      ],
+      "variables": [
+        { "id": "powerState", "label": "Power" },
+        { "id": "muteState", "label": "Blank" },
+        { "id": "freezeState", "label": "Freeze" },
+        { "id": "lamp1Hrs", "label": "Lamp Hours" },
+        { "id": "projectorModel", "label": "Model" }
+      ],
+      "notes": "PJLink power, blank (mute), freeze, input, lamp hours and model. Used by every projector in the campus registry.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "generic-tcp-udp",
+      "name": "Generic TCP/UDP",
+      "category": "Protocol",
+      "protocol": "Raw TCP or UDP",
+      "config": [
+        { "key": "host", "label": "Target Host", "type": "text", "required": true },
+        { "key": "port", "label": "Target Port", "type": "number", "required": true },
+        { "key": "prot", "label": "Protocol", "type": "select", "options": ["tcp", "udp"], "default": "tcp" },
+        { "key": "saveresponse", "label": "Save TCP Response", "type": "boolean", "default": true },
+        { "key": "convertresponse", "label": "Convert Response", "type": "select", "options": ["none", "string", "hex"], "default": "string" }
+      ],
+      "actions": [
+        { "id": "send", "label": "Send Command", "options": ["id_send", "id_end"] },
+        { "id": "sendHex", "label": "Send HEX Command", "options": ["id_send", "id_end"] }
+      ],
+      "feedbacks": [],
+      "variables": [{ "id": "tcp_response", "label": "TCP Response" }],
+      "notes": "Carries VS, AMP and PCU traffic in the campus design. VS/AMP use TCP 5000; PCU uses TCP 23 (telnet). No built-in reconnect loop or feedbacks.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "generic-ping",
+      "name": "Generic Ping",
+      "category": "Network",
+      "protocol": "ICMP echo",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "interval", "label": "Interval (ms)", "type": "number", "default": 5000 }
+      ],
+      "actions": [],
+      "feedbacks": [{ "id": "reachable", "label": "Reachable" }],
+      "variables": [
+        { "id": "status", "label": "Status" },
+        { "id": "latency", "label": "Latency" }
+      ],
+      "notes": "Used for controller and switch reachability. A ping-only connection proves the host is up, not that the AV application is healthy.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "generic-pingandwake",
+      "name": "Generic Ping and Wake",
+      "category": "Network",
+      "protocol": "ICMP + Wake-on-LAN",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "mac", "label": "MAC Address", "type": "text" }
+      ],
+      "actions": [{ "id": "wake", "label": "Wake" }],
+      "feedbacks": [{ "id": "reachable", "label": "Reachable" }],
+      "variables": [{ "id": "status", "label": "Status" }],
+      "notes": "Useful for control PCs and media players that support Wake-on-LAN.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "aver-ptz",
+      "name": "AVer PTZ",
+      "category": "Camera / PTZ",
+      "protocol": "VISCA over IP (UDP, default 52381)",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Target Port", "type": "number", "default": 52381 },
+        { "key": "isviscaoverip", "label": "VISCA over IP", "type": "boolean", "default": true }
+      ],
+      "actions": [
+        { "id": "preset", "label": "Recall Preset", "options": ["preset"] },
+        { "id": "panTilt", "label": "Pan/Tilt" },
+        { "id": "zoom", "label": "Zoom" },
+        { "id": "custom", "label": "Custom Command", "options": ["command"] }
+      ],
+      "feedbacks": [],
+      "variables": [],
+      "notes": "Command support varies by camera model and firmware. Custom VISCA hex commands cover the gaps.",
+      "docs": "https://bitfocus.io/connections/aver-ptz"
+    },
+    {
+      "id": "obs-studio",
+      "name": "OBS Studio",
+      "category": "Video / Streaming",
+      "protocol": "obs-websocket",
+      "config": [
+        { "key": "host", "label": "Host", "type": "text", "default": "127.0.0.1" },
+        { "key": "port", "label": "Port", "type": "number", "default": 4455 },
+        { "key": "password", "label": "Password", "type": "secret" }
+      ],
+      "actions": [
+        { "id": "setScene", "label": "Set Scene", "options": ["scene"] },
+        { "id": "startStream", "label": "Start Streaming" },
+        { "id": "stopStream", "label": "Stop Streaming" },
+        { "id": "startRecord", "label": "Start Recording" },
+        { "id": "stopRecord", "label": "Stop Recording" }
+      ],
+      "feedbacks": [
+        { "id": "streaming", "label": "Streaming" },
+        { "id": "recording", "label": "Recording" }
+      ],
+      "variables": [{ "id": "scene", "label": "Current Scene" }],
+      "notes": "Requires OBS 28+ with obs-websocket enabled.",
+      "docs": "https://bitfocus.io/connections/obs-studio"
+    },
+    {
+      "id": "extron-ipl-t-pcs4",
+      "name": "Extron IPL T PCS4",
+      "category": "Power / Control",
+      "protocol": "Extron SIS over TCP",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 23 }
+      ],
+      "actions": [
+        { "id": "powerOn", "label": "Power On", "options": ["outlet"] },
+        { "id": "powerOff", "label": "Power Off", "options": ["outlet"] }
+      ],
+      "feedbacks": [{ "id": "outlet", "label": "Outlet State", "options": ["outlet"] }],
+      "variables": [],
+      "notes": "Often the Extron processor behind a PCU bit. Treat PCU 'Extron off' as a real fault.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "behringer-wing",
+      "name": "Behringer WING",
+      "category": "Audio",
+      "protocol": "OSC / TCP",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 2223 }
+      ],
+      "actions": [
+        { "id": "mute", "label": "Mute", "options": ["channel"] },
+        { "id": "fader", "label": "Set Fader", "options": ["channel", "level"] }
+      ],
+      "feedbacks": [{ "id": "mute", "label": "Mute State", "options": ["channel"] }],
+      "variables": [],
+      "notes": "Audio console control for performance spaces.",
+      "docs": "https://bitfocus.io/connections/behringer-wing"
+    },
+    {
+      "id": "lgtv-display",
+      "name": "LG TV Display",
+      "category": "Display",
+      "protocol": "LG webOS / serial",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text" },
+        { "key": "port", "label": "Port", "type": "number", "default": 3000 }
+      ],
+      "actions": [
+        { "id": "powerOn", "label": "Power On" },
+        { "id": "powerOff", "label": "Power Off" },
+        { "id": "input", "label": "Select Input", "options": ["input"] }
+      ],
+      "feedbacks": [{ "id": "power", "label": "Power State" }],
+      "variables": [],
+      "notes": "Display control for rooms using commercial LG panels.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "kramer-matrix",
+      "name": "Kramer Matrix",
+      "category": "Router / Matrix",
+      "protocol": "Kramer Protocol 2000 / TCP",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 5000 }
+      ],
+      "actions": [{ "id": "route", "label": "Route", "options": ["input", "output"] }],
+      "feedbacks": [{ "id": "route", "label": "Route State" }],
+      "variables": [],
+      "notes": "Matrix routing for larger teaching spaces.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "vicreo-hotkey",
+      "name": "VICREO Hotkey",
+      "category": "Software",
+      "protocol": "VICREO Listener",
+      "config": [
+        { "key": "host", "label": "Listener Host", "type": "text" },
+        { "key": "port", "label": "Port", "type": "number", "default": 6000 }
+      ],
+      "actions": [{ "id": "hotkey", "label": "Send Hotkey", "options": ["key"] }],
+      "feedbacks": [],
+      "variables": [],
+      "notes": "Keyboard automation for lecture capture and media PCs.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "tplink-taposmartplug",
+      "name": "TP-Link Tapo Smart Plug",
+      "category": "Power",
+      "protocol": "Tapo local API",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "email", "label": "Account", "type": "text" },
+        { "key": "password", "label": "Password", "type": "secret" }
+      ],
+      "actions": [
+        { "id": "on", "label": "Power On" },
+        { "id": "off", "label": "Power Off" }
+      ],
+      "feedbacks": [{ "id": "power", "label": "Power State" }],
+      "variables": [],
+      "notes": "Used for remote power cycling of small devices.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "novastar-controller",
+      "name": "NovaStar Controller",
+      "category": "LED / Video",
+      "protocol": "NovaStar TCP",
+      "config": [
+        { "key": "host", "label": "Target IP", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 5200 }
+      ],
+      "actions": [
+        { "id": "preset", "label": "Recall Preset", "options": ["preset"] },
+        { "id": "brightness", "label": "Set Brightness", "options": ["value"] }
+      ],
+      "feedbacks": [{ "id": "preset", "label": "Preset State" }],
+      "variables": [],
+      "notes": "LED wall and video processor control.",
+      "docs": "https://bitfocus.io/connections"
+    },
+    {
+      "id": "audinate-dantecontroller",
+      "name": "Audinate Dante Controller",
+      "category": "Audio / Dante",
+      "protocol": "Dante",
+      "config": [
+        { "key": "host", "label": "Dante Host", "type": "text" },
+        { "key": "port", "label": "Port", "type": "number", "default": 4440 }
+      ],
+      "actions": [{ "id": "subscribe", "label": "Subscribe Route", "options": ["source", "destination"] }],
+      "feedbacks": [{ "id": "route", "label": "Route State" }],
+      "variables": [],
+      "notes": "Dante audio routing and subscription control.",
+      "docs": "https://bitfocus.io/connections/audinate-dantecontroller"
+    },
+    {
+      "id": "obsbot-osc",
+      "name": "OBSBOT OSC",
+      "category": "Camera / PTZ",
+      "protocol": "OSC over UDP",
+      "config": [
+        { "key": "ip", "label": "Camera IP", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 57110 },
+        { "key": "transport", "label": "Transport", "type": "select", "options": ["udp", "tcp"], "default": "udp" }
+      ],
+      "actions": [
+        { "id": "moveGimbalUp", "label": "Gimbal Up" },
+        { "id": "stopGimbalUp", "label": "Stop Gimbal Up" },
+        { "id": "preset", "label": "Recall Preset", "options": ["preset"] }
+      ],
+      "feedbacks": [],
+      "variables": [],
+      "notes": "OBSBOT Tail/Air camera control over OSC.",
+      "docs": "https://bitfocus.io/connections/obsbot-osc"
+    },
+    {
+      "id": "generic-smtp",
+      "name": "Generic SMTP",
+      "category": "Notification",
+      "protocol": "SMTP",
+      "config": [
+        { "key": "host", "label": "SMTP Host", "type": "text", "required": true },
+        { "key": "port", "label": "Port", "type": "number", "default": 587 },
+        { "key": "user", "label": "Username", "type": "text" },
+        { "key": "pass", "label": "Password", "type": "secret" }
+      ],
+      "actions": [{ "id": "send", "label": "Send Email", "options": ["to", "subject", "body"] }],
+      "feedbacks": [],
+      "variables": [],
+      "notes": "Alert delivery. Keep credentials out of the repository.",
+      "docs": "https://bitfocus.io/connections"
+    }
+  ]
+}

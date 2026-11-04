@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b1117">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Campus Wide Companion</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">CWC</span>
+        <div>
+          <div class="brand-name">Campus Wide Companion</div>
+          <div class="brand-sub">Read-only AV operations</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <label class="host-picker">
+          <span>Host</span>
+          <select id="host-select" aria-label="Companion host"></select>
+        </label>
+        <button id="refresh-btn" class="btn ghost" type="button">Refresh</button>
+        <span id="ai-status" class="pill">AI: checking</span>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Views">
+      <button class="tab active" data-view="overview" type="button">Overview</button>
+      <button class="tab" data-view="rooms" type="button">Rooms</button>
+      <button class="tab" data-view="build" type="button">Build studio</button>
+      <button class="tab" data-view="knowledge" type="button">Knowledge</button>
+      <button class="tab" data-view="copilot" type="button">Copilot</button>
+    </nav>
+
+    <main class="main">
+      <section id="view-overview" class="view active">
+        <div id="counts" class="counts"></div>
+        <div class="split">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Room matrix</h2>
+              <span id="snapshot-time" class="muted"></span>
+            </div>
+            <div id="matrix" class="matrix"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Alerts</h2></div>
+            <div id="alerts" class="alerts"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-rooms" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Rooms</h2>
+            <input id="room-filter" class="input" type="search" placeholder="Filter by room, block, or state" aria-label="Filter rooms">
+          </div>
+          <div id="room-list" class="room-list"></div>
+        </div>
+        <div id="room-detail" class="panel detail" hidden></div>
+      </section>
+
+      <section id="view-build" class="view">
+        <div class="panel">
+          <div class="panel-head"><h2>Dynamic build studio</h2></div>
+          <p class="muted">Generate Companion connections, buttons, and functions from a room blueprint. Nothing is applied to a live host.</p>
+          <div class="form-row">
+            <label>Room <select id="build-room" class="input"></select></label>
+            <label>Schema
+              <select id="build-schema" class="input">
+                <option value="12">12 - Companion 5.x (layered)</option>
+                <option value="9">9 - Companion 4.2.5 (classic)</option>
+              </select>
+            </label>
+            <label>Page <input id="build-page" class="input" type="number" min="1" value="1"></label>
+            <button id="build-btn" class="btn primary" type="button">Generate preview</button>
+          </div>
+          <div id="build-result" class="build-result"></div>
+        </div>
+      </section>
+
+      <section id="view-knowledge" class="view">
+        <div class="panel">
+          <div class="panel-head"><h2>Knowledge base</h2></div>
+          <div class="form-row">
+            <input id="kb-query" class="input grow" type="search" placeholder="Search modules, rooms, protocols, playbooks" aria-label="Search knowledge base">
+            <button id="kb-btn" class="btn primary" type="button">Search</button>
+          </div>
+          <div id="kb-results" class="kb-results"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Module catalog</h2></div>
+          <div id="module-catalog" class="module-grid"></div>
+        </div>
+      </section>
+
+      <section id="view-copilot" class="view">
+        <div class="panel">
+          <div class="panel-head"><h2>Advisory copilot</h2></div>
+          <p class="muted">Grounded in the knowledge base. Read-only: it cannot press buttons or change devices.</p>
+          <div class="form-row">
+            <input id="ai-question" class="input grow" type="text" placeholder="Why is X101 showing a fault?" aria-label="Ask the copilot">
+            <button id="ai-btn" class="btn primary" type="button">Ask</button>
+          </div>
+          <div id="ai-answer" class="ai-answer"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Read-only adapter. GET-only to Companion.</span>
+      <span id="footer-host" class="muted"></span>
+    </footer>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+node_modules/
+.env
+.env.local
+
+# Real campus inventory and any live exports stay local.
+config/private/
+out/
+logs/
+backups/
+
+# Generated Companion configs
+*.companionconfig
+*.companionconfig.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

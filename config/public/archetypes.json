@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-04T00:00:00.000Z",
+  "archetypes": [
+    {
+      "id": "projector",
+      "label": "Projector only",
+      "roles": ["projector"],
+      "capabilities": { "projector": true, "vs": false, "amp": false, "pcu": false, "controller": false, "switch": false },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "Blank", "role": "projector", "action": "muteOn", "bgcolor": "#9e6a03" },
+        { "row": 1, "col": 2, "label": "Clear", "role": "projector", "action": "muteOff", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Freeze", "role": "projector", "action": "freezeOn", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 2, "label": "Unfreeze", "role": "projector", "action": "freezeOff", "bgcolor": "#238636" }
+      ]
+    },
+    {
+      "id": "projector+switch",
+      "label": "Projector + switch",
+      "roles": ["projector", "switch"],
+      "capabilities": { "projector": true, "vs": false, "amp": false, "pcu": false, "controller": false, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "Blank", "role": "projector", "action": "muteOn", "bgcolor": "#9e6a03" },
+        { "row": 1, "col": 2, "label": "Clear", "role": "projector", "action": "muteOff", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Switch", "role": "switch", "kind": "status", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "projector+VS+switch",
+      "label": "Projector + video switcher + switch",
+      "roles": ["projector", "vs", "switch"],
+      "capabilities": { "projector": true, "vs": true, "amp": false, "pcu": false, "controller": false, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 1, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 3, "label": "VGA", "role": "vs", "action": "send", "command": "#SRC3", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Blank", "role": "projector", "action": "muteOn", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 2, "label": "Clear", "role": "projector", "action": "muteOff", "bgcolor": "#238636" }
+      ]
+    },
+    {
+      "id": "projector+VS+PCU+switch",
+      "label": "Projector + video switcher + PCU + switch",
+      "roles": ["projector", "vs", "pcu", "switch"],
+      "capabilities": { "projector": true, "vs": true, "amp": false, "pcu": true, "controller": false, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 1, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 3, "label": "VGA", "role": "vs", "action": "send", "command": "#SRC3", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "PCU Status", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Blank", "role": "projector", "action": "muteOn", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 3, "label": "Clear", "role": "projector", "action": "muteOff", "bgcolor": "#238636" }
+      ]
+    },
+    {
+      "id": "projector+VS+AMP+PCU+controller",
+      "label": "Projector + VS + AMP + PCU + controller",
+      "roles": ["projector", "vs", "amp", "pcu", "controller"],
+      "capabilities": { "projector": true, "vs": true, "amp": true, "pcu": true, "controller": true, "switch": false },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 1, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 3, "label": "VGA", "role": "vs", "action": "send", "command": "#SRC3", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Vol -", "role": "amp", "action": "send", "command": "#VOL-", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Mute", "role": "amp", "action": "send", "command": "#MUTE", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 3, "label": "Vol +", "role": "amp", "action": "send", "command": "#VOL+", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "projector+VS+AMP+PCU+switch+controller",
+      "label": "Full AV room",
+      "roles": ["projector", "vs", "amp", "pcu", "controller", "switch"],
+      "capabilities": { "projector": true, "vs": true, "amp": true, "pcu": true, "controller": true, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 1, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 3, "label": "VGA", "role": "vs", "action": "send", "command": "#SRC3", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Vol -", "role": "amp", "action": "send", "command": "#VOL-", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Mute", "role": "amp", "action": "send", "command": "#MUTE", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 3, "label": "Vol +", "role": "amp", "action": "send", "command": "#VOL+", "bgcolor": "#21262d" },
+        { "row": 2, "col": 4, "label": "PCU", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "projector+PCU+controller",
+      "label": "Projector + PCU + controller",
+      "roles": ["projector", "pcu", "controller"],
+      "capabilities": { "projector": true, "vs": false, "amp": false, "pcu": true, "controller": true, "switch": false },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PCU Status", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" },
+        { "row": 1, "col": 2, "label": "Controller", "role": "controller", "kind": "status", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "VS+AMP+PCU+switch+controller",
+      "label": "AV room without a mapped projector",
+      "roles": ["vs", "amp", "pcu", "controller", "switch"],
+      "capabilities": { "projector": false, "vs": true, "amp": true, "pcu": true, "controller": true, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 0, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 1, "label": "Vol -", "role": "amp", "action": "send", "command": "#VOL-", "bgcolor": "#21262d" },
+        { "row": 1, "col": 2, "label": "Mute", "role": "amp", "action": "send", "command": "#MUTE", "bgcolor": "#9e6a03" },
+        { "row": 1, "col": 3, "label": "Vol +", "role": "amp", "action": "send", "command": "#VOL+", "bgcolor": "#21262d" },
+        { "row": 2, "col": 1, "label": "PCU", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Controller", "role": "controller", "kind": "status", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "projector+VS+AMP+PCU+switch",
+      "label": "Projector + VS + AMP + PCU + switch",
+      "roles": ["projector", "vs", "amp", "pcu", "switch"],
+      "capabilities": { "projector": true, "vs": true, "amp": true, "pcu": true, "controller": false, "switch": true },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PJ On", "role": "projector", "action": "powerOn", "bgcolor": "#1f6feb" },
+        { "row": 0, "col": 2, "label": "PJ Off", "role": "projector", "action": "powerOff", "bgcolor": "#30363d" },
+        { "row": 1, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 1, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 3, "label": "VGA", "role": "vs", "action": "send", "command": "#SRC3", "bgcolor": "#238636" },
+        { "row": 2, "col": 1, "label": "Vol -", "role": "amp", "action": "send", "command": "#VOL-", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Mute", "role": "amp", "action": "send", "command": "#MUTE", "bgcolor": "#9e6a03" },
+        { "row": 2, "col": 3, "label": "Vol +", "role": "amp", "action": "send", "command": "#VOL+", "bgcolor": "#21262d" },
+        { "row": 2, "col": 4, "label": "PCU", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "VS+AMP+PCU+controller",
+      "label": "AV room without projector or switch",
+      "roles": ["vs", "amp", "pcu", "controller"],
+      "capabilities": { "projector": false, "vs": true, "amp": true, "pcu": true, "controller": true, "switch": false },
+      "buttons": [
+        { "row": 0, "col": 1, "label": "PC", "role": "vs", "action": "send", "command": "#SRC1", "bgcolor": "#238636" },
+        { "row": 0, "col": 2, "label": "Laptop", "role": "vs", "action": "send", "command": "#SRC2", "bgcolor": "#238636" },
+        { "row": 1, "col": 1, "label": "Vol -", "role": "amp", "action": "send", "command": "#VOL-", "bgcolor": "#21262d" },
+        { "row": 1, "col": 2, "label": "Mute", "role": "amp", "action": "send", "command": "#MUTE", "bgcolor": "#9e6a03" },
+        { "row": 1, "col": 3, "label": "Vol +", "role": "amp", "action": "send", "command": "#VOL+", "bgcolor": "#21262d" },
+        { "row": 2, "col": 1, "label": "PCU", "role": "pcu", "action": "send", "command": "#STATUS", "bgcolor": "#21262d" },
+        { "row": 2, "col": 2, "label": "Controller", "role": "controller", "kind": "status", "bgcolor": "#21262d" }
+      ]
+    },
+    {
+      "id": "unknown",
+      "label": "Unknown room shape",
+      "roles": [],
+      "capabilities": { "projector": false, "vs": false, "amp": false, "pcu": false, "controller": false, "switch": false },
+      "buttons": []
+    },
+    {
+      "id": "suspended",
+      "label": "Suspended / renovation",
+      "roles": [],
+      "capabilities": { "projector": false, "vs": false, "amp": false, "pcu": false, "controller": false, "switch": false },
+      "buttons": []
+    }
+  ]
+}
