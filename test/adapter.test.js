@@ -54,8 +54,8 @@ test('deriveRoomsFromExport reads schema 9 instance_type', () => {
     version: 9,
     companionBuild: '4.2.5+8815',
     instances: {
-      a: { instance_type: 'generic-pjlink', label: 'M501-pjlink', config: {}, enabled: true },
-      b: { instance_type: 'generic-tcp-udp', label: 'M501-VS', config: { host: '192.0.2.10' }, enabled: true },
+      a: { instance_type: 'generic-pjlink', label: 'X101-pjlink', config: {}, enabled: true },
+      b: { instance_type: 'generic-tcp-udp', label: 'X101-VS', config: { host: '192.0.2.10' }, enabled: true },
     },
   };
   const registry = deriveRoomsFromExport(config);

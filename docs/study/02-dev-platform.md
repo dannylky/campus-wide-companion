@@ -24,7 +24,7 @@ The local lab is **not** a copy of the campus system. It is a separate installat
 - 287 connections: `generic-tcp-udp` 133, `generic-ping` 91, `generic-pjlink` 80.
 - Export schema 9; no `/api/connections`; no REST v2.
 
-The generic adapter derives **80 of the 81** curated spaces. `M1003` is suspended and has no connections, so a connection-derived inventory cannot see it. The curated `config/private/rooms.json` remains the full source when available.
+The generic adapter derives **80 of the 81** curated spaces. One suspended room has no connections, so a connection-derived inventory cannot see it. The curated `config/private/rooms.json` remains the full source when available.
 
 ## Adapter strategy
 

@@ -62,4 +62,4 @@ The PCU status string is four characters, ordered:
 
 ## Dual-projector spaces
 
-Rooms such as `N205-L` / `N205-R` and `CR219-L` / `CR219-R` share VS/AMP/PCU but have separate projector connections. The build engine treats each space as its own page and keeps the shared device labels stable.
+Rooms such as `X205-L` / `X205-R` and `Z219-L` / `Z219-R` share VS/AMP/PCU but have separate projector connections. The build engine treats each space as its own page and keeps the shared device labels stable.
