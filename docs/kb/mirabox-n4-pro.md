@@ -129,6 +129,17 @@ The script uploads the config through `importExport.prepareImport.*` and calls
 - If the device shows fewer buttons, check that the surface is using page 8 and
   that the page viewport is at column 0, row 0.
 
+## Copy page
+
+Copy all buttons from one page to another (for example page 8 to page 9):
+
+```bash
+node tools/copy-page.mjs --from 8 --to 9 --apply
+```
+
+The target page name is preserved by default. Use `--name "New name"` to rename
+it, or omit `--apply` for a dry run that only writes the import file.
+
 ## Disable vibration
 
 The N4 Pro vibrates on key press. Companion's MiraBox surface module does not
