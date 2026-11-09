@@ -64,9 +64,8 @@ feedbacks, or commands** — this is layout only.
 
 ## Icons
 
-Each button now has a static Material Design icon rendered to a 64×64
-transparent PNG and embedded as an image layer. The icon sits above the text on
-the keys and to the left of the text on the touch bar.
+The icon set is Material Design, rasterized to transparent PNGs. Page 8 now
+bakes these icons into the modern button images below; the mapping is:
 
 | Button | Icon | Button | Icon |
 |---|---|---|---|
@@ -80,23 +79,42 @@ the keys and to the left of the text on the touch bar.
 | Off | `power-standby` | | |
 
 Companion does not support animated GIF icons in the button renderer
-(upstream issue #262 is still open), so the icons are static PNGs. The icon
-pipeline uses headless Edge/Chrome to rasterize MDI SVGs with transparency:
+(upstream issue #262 is still open), so the icons are static PNGs.
+
+## Modern button images
+
+Page 8 uses the **Aurora Glass** design: vibrant gradients, a translucent glass
+panel, a grainy texture, a large white icon, and a baked-in label. Each key is a
+224×224 image (2× the 112×112 key); each touch segment is 352×248 (2× the
+176×124 strip). Buttons have a single full-size image layer, so the design is
+identical on the device and in the preview.
+
+The five touch segments share one continuous gradient and a white track; the
+center **MEDIA** segment carries the thumb indicator.
 
 ```bash
-node tools/mirabox-icons.mjs --apply
+node tools/mirabox-button-images.mjs --apply
 ```
 
-Use `--svg` to force SVG data URLs, or `--out <path>` to change the generated
-artifact. The iconized layout is saved as
-`config/public/layouts/mirabox-n4-pro-icons.json`.
+- Artifact: `config/public/layouts/mirabox-n4-pro-modern.json`
+- Preview: `out/mirabox-button-preview.png`
+- The previous icon-only layout remains in
+  `config/public/layouts/mirabox-n4-pro-icons.json`.
+
+To copy the modern design to the backup page:
+
+```bash
+node tools/copy-page.mjs --from 8 --to 9 --apply
+```
 
 ## Files
 
-- `config/public/layouts/mirabox-n4-pro.json` — importable base page config.
-- `config/public/layouts/mirabox-n4-pro-icons.json` — current page with PNG icons.
+- `config/public/layouts/mirabox-n4-pro.json` — base layout page config.
+- `config/public/layouts/mirabox-n4-pro-icons.json` — previous icon-only layout.
+- `config/public/layouts/mirabox-n4-pro-modern.json` — current Aurora Glass page.
 - `tools/mirabox-layout.mjs` — regenerates the base layout and optionally applies it.
-- `tools/mirabox-icons.mjs` — fetches, rasterizes, and applies the icons.
+- `tools/mirabox-icons.mjs` — fetches, rasterizes, and applies icons.
+- `tools/mirabox-button-images.mjs` — renders and applies the modern button images.
 
 ## Re-apply
 
