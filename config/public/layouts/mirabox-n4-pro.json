@@ -4,7 +4,7 @@
   "companionBuild": "5.1.1+10000-stable-1e2454ae78",
   "pages": {
     "1": {
-      "id": "YAN9XZaA5xi5rV6vSCVC",
+      "id": "QIP3gL3Ne5qXCAIQYqRi",
       "name": "MiraBox N4 Pro",
       "controls": {
         "0": {
@@ -1581,7 +1581,7 @@
             "localVariables": []
           }
         },
-        "3": {
+        "2": {
           "0": {
             "type": "button-layered",
             "style": {

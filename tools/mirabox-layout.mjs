@@ -89,8 +89,8 @@ function buildLayout() {
   }
 
   for (const spec of TOUCH_BAR) {
-    controls[3] = controls[3] || {};
-    controls[3][spec.col] = touchBarButton(spec);
+    controls[2] = controls[2] || {};
+    controls[2][spec.col] = touchBarButton(spec);
   }
 
   return {
@@ -202,7 +202,7 @@ await fs.writeFile(OUT, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
 console.log(`Layout:   5x2 keys + 5-segment touch bar`);
 console.log(`Buttons:  ${BUTTONS.length} keys + ${TOUCH_BAR.length} touch-bar segments`);
 for (const spec of BUTTONS) console.log(`  ${spec.row}/${spec.col}  ${spec.text.replace('\n', ' ')}`);
-for (const spec of TOUCH_BAR) console.log(`  3/${spec.col}  ${spec.text}${spec.thumb ? ' (thumb)' : ''}`);
+for (const spec of TOUCH_BAR) console.log(`  2/${spec.col}  ${spec.text}${spec.thumb ? ' (thumb)' : ''}`);
 console.log(`Target:   page ${TARGET_PAGE}`);
 console.log(`Wrote:    ${path.relative(ROOT, OUT)}`);
 
