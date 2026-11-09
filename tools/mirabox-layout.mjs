@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash, randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-import { buildButton } from '../lib/build/templates.js';
+import { buildButton, boxLayer, value } from '../lib/build/templates.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.COMPANION_URL || 'http://127.0.0.1:8000';
@@ -20,6 +20,44 @@ function arg(name, fallback = '') {
 
 function pageId() {
   return randomBytes(15).toString('base64url').slice(0, 20);
+}
+
+const TOUCH_BAR = [
+  { col: 0, text: 'FOCUS', bgcolor: '#0b3d91' },
+  { col: 1, text: 'PRESENT', bgcolor: '#1f6feb' },
+  { col: 2, text: 'MEDIA', bgcolor: '#6e40c9', thumb: true },
+  { col: 3, text: 'LIGHTS', bgcolor: '#a371f7' },
+  { col: 4, text: 'OFF', bgcolor: '#8b2f5f' },
+];
+
+function touchBarButton({ text, bgcolor, thumb }) {
+  const button = buildButton({
+    styleMode: 'layered',
+    text,
+    bgcolor,
+    textColor: '#ffffff',
+    actions: [],
+    feedbacks: [],
+    fontsize: 55,
+  });
+
+  const track = { ...boxLayer('#ffffff'), id: 'track', name: 'Track', opacity: value(45), height: value(6) };
+  button.style.layers.splice(2, 0, track);
+
+  if (thumb) {
+    const thumbLayer = {
+      ...boxLayer('#ffffff'),
+      id: 'thumb',
+      name: 'Thumb',
+      x: value(35),
+      y: value(84),
+      width: value(30),
+      height: value(10),
+    };
+    button.style.layers.splice(3, 0, thumbLayer);
+  }
+
+  return button;
 }
 
 const BUTTONS = [
@@ -48,6 +86,11 @@ function buildLayout() {
       feedbacks: [],
       fontsize: 70,
     });
+  }
+
+  for (const spec of TOUCH_BAR) {
+    controls[3] = controls[3] || {};
+    controls[3][spec.col] = touchBarButton(spec);
   }
 
   return {
@@ -156,9 +199,10 @@ const config = buildLayout();
 await fs.mkdir(path.dirname(OUT), { recursive: true });
 await fs.writeFile(OUT, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
 
-console.log(`Layout:   5x2, filling the 10-key N4 Pro area`);
-console.log(`Buttons:  ${BUTTONS.length}`);
+console.log(`Layout:   5x2 keys + 5-segment touch bar`);
+console.log(`Buttons:  ${BUTTONS.length} keys + ${TOUCH_BAR.length} touch-bar segments`);
 for (const spec of BUTTONS) console.log(`  ${spec.row}/${spec.col}  ${spec.text.replace('\n', ' ')}`);
+for (const spec of TOUCH_BAR) console.log(`  3/${spec.col}  ${spec.text}${spec.thumb ? ' (thumb)' : ''}`);
 console.log(`Target:   page ${TARGET_PAGE}`);
 console.log(`Wrote:    ${path.relative(ROOT, OUT)}`);
 

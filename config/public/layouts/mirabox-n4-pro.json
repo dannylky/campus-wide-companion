@@ -4,7 +4,7 @@
   "companionBuild": "5.1.1+10000-stable-1e2454ae78",
   "pages": {
     "1": {
-      "id": "jxCl1ejNgOXDXz5BXkt8",
+      "id": "YAN9XZaA5xi5rV6vSCVC",
       "name": "MiraBox N4 Pro",
       "controls": {
         "0": {
@@ -1542,6 +1542,1093 @@
                   },
                   "fontsize": {
                     "value": 70,
+                    "isExpression": false
+                  },
+                  "fontsizeAllowShrink": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "font": {
+                    "value": "companion-sans",
+                    "isExpression": false
+                  },
+                  "outlineColor": {
+                    "value": 4278190080,
+                    "isExpression": false
+                  }
+                }
+              ]
+            },
+            "options": {
+              "stepProgression": "auto",
+              "stepExpression": "",
+              "rotaryActions": false,
+              "canModifyStyleInApis": false,
+              "notes": ""
+            },
+            "feedbacks": [],
+            "steps": {
+              "0": {
+                "action_sets": {
+                  "down": [],
+                  "up": []
+                },
+                "options": {
+                  "runWhileHeld": []
+                }
+              }
+            },
+            "localVariables": []
+          }
+        },
+        "3": {
+          "0": {
+            "type": "button-layered",
+            "style": {
+              "layers": [
+                {
+                  "id": "canvas",
+                  "name": "Canvas",
+                  "usage": "auto",
+                  "type": "canvas",
+                  "decoration": {
+                    "value": "border",
+                    "isExpression": false
+                  },
+                  "showStatusIcons": {
+                    "value": "default",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "box0",
+                  "name": "Background",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 736657,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "track",
+                  "name": "Track",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 45,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 6,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "text0",
+                  "name": "Text",
+                  "usage": "auto",
+                  "type": "text",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "text": {
+                    "value": "FOCUS",
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "halign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "valign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "fontsize": {
+                    "value": 55,
+                    "isExpression": false
+                  },
+                  "fontsizeAllowShrink": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "font": {
+                    "value": "companion-sans",
+                    "isExpression": false
+                  },
+                  "outlineColor": {
+                    "value": 4278190080,
+                    "isExpression": false
+                  }
+                }
+              ]
+            },
+            "options": {
+              "stepProgression": "auto",
+              "stepExpression": "",
+              "rotaryActions": false,
+              "canModifyStyleInApis": false,
+              "notes": ""
+            },
+            "feedbacks": [],
+            "steps": {
+              "0": {
+                "action_sets": {
+                  "down": [],
+                  "up": []
+                },
+                "options": {
+                  "runWhileHeld": []
+                }
+              }
+            },
+            "localVariables": []
+          },
+          "1": {
+            "type": "button-layered",
+            "style": {
+              "layers": [
+                {
+                  "id": "canvas",
+                  "name": "Canvas",
+                  "usage": "auto",
+                  "type": "canvas",
+                  "decoration": {
+                    "value": "border",
+                    "isExpression": false
+                  },
+                  "showStatusIcons": {
+                    "value": "default",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "box0",
+                  "name": "Background",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 2060267,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "track",
+                  "name": "Track",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 45,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 6,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "text0",
+                  "name": "Text",
+                  "usage": "auto",
+                  "type": "text",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "text": {
+                    "value": "PRESENT",
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "halign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "valign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "fontsize": {
+                    "value": 55,
+                    "isExpression": false
+                  },
+                  "fontsizeAllowShrink": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "font": {
+                    "value": "companion-sans",
+                    "isExpression": false
+                  },
+                  "outlineColor": {
+                    "value": 4278190080,
+                    "isExpression": false
+                  }
+                }
+              ]
+            },
+            "options": {
+              "stepProgression": "auto",
+              "stepExpression": "",
+              "rotaryActions": false,
+              "canModifyStyleInApis": false,
+              "notes": ""
+            },
+            "feedbacks": [],
+            "steps": {
+              "0": {
+                "action_sets": {
+                  "down": [],
+                  "up": []
+                },
+                "options": {
+                  "runWhileHeld": []
+                }
+              }
+            },
+            "localVariables": []
+          },
+          "2": {
+            "type": "button-layered",
+            "style": {
+              "layers": [
+                {
+                  "id": "canvas",
+                  "name": "Canvas",
+                  "usage": "auto",
+                  "type": "canvas",
+                  "decoration": {
+                    "value": "border",
+                    "isExpression": false
+                  },
+                  "showStatusIcons": {
+                    "value": "default",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "box0",
+                  "name": "Background",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 7225545,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "track",
+                  "name": "Track",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 45,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 6,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "thumb",
+                  "name": "Thumb",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 35,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 84,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 30,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 10,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "text0",
+                  "name": "Text",
+                  "usage": "auto",
+                  "type": "text",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "text": {
+                    "value": "MEDIA",
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "halign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "valign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "fontsize": {
+                    "value": 55,
+                    "isExpression": false
+                  },
+                  "fontsizeAllowShrink": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "font": {
+                    "value": "companion-sans",
+                    "isExpression": false
+                  },
+                  "outlineColor": {
+                    "value": 4278190080,
+                    "isExpression": false
+                  }
+                }
+              ]
+            },
+            "options": {
+              "stepProgression": "auto",
+              "stepExpression": "",
+              "rotaryActions": false,
+              "canModifyStyleInApis": false,
+              "notes": ""
+            },
+            "feedbacks": [],
+            "steps": {
+              "0": {
+                "action_sets": {
+                  "down": [],
+                  "up": []
+                },
+                "options": {
+                  "runWhileHeld": []
+                }
+              }
+            },
+            "localVariables": []
+          },
+          "3": {
+            "type": "button-layered",
+            "style": {
+              "layers": [
+                {
+                  "id": "canvas",
+                  "name": "Canvas",
+                  "usage": "auto",
+                  "type": "canvas",
+                  "decoration": {
+                    "value": "border",
+                    "isExpression": false
+                  },
+                  "showStatusIcons": {
+                    "value": "default",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "box0",
+                  "name": "Background",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 10711543,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "track",
+                  "name": "Track",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 45,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 6,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "text0",
+                  "name": "Text",
+                  "usage": "auto",
+                  "type": "text",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "text": {
+                    "value": "LIGHTS",
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "halign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "valign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "fontsize": {
+                    "value": 55,
+                    "isExpression": false
+                  },
+                  "fontsizeAllowShrink": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "font": {
+                    "value": "companion-sans",
+                    "isExpression": false
+                  },
+                  "outlineColor": {
+                    "value": 4278190080,
+                    "isExpression": false
+                  }
+                }
+              ]
+            },
+            "options": {
+              "stepProgression": "auto",
+              "stepExpression": "",
+              "rotaryActions": false,
+              "canModifyStyleInApis": false,
+              "notes": ""
+            },
+            "feedbacks": [],
+            "steps": {
+              "0": {
+                "action_sets": {
+                  "down": [],
+                  "up": []
+                },
+                "options": {
+                  "runWhileHeld": []
+                }
+              }
+            },
+            "localVariables": []
+          },
+          "4": {
+            "type": "button-layered",
+            "style": {
+              "layers": [
+                {
+                  "id": "canvas",
+                  "name": "Canvas",
+                  "usage": "auto",
+                  "type": "canvas",
+                  "decoration": {
+                    "value": "border",
+                    "isExpression": false
+                  },
+                  "showStatusIcons": {
+                    "value": "default",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "box0",
+                  "name": "Background",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 9121631,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "track",
+                  "name": "Track",
+                  "usage": "auto",
+                  "type": "box",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 45,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 6,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "borderWidth": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderColor": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "borderPosition": {
+                    "value": "inside",
+                    "isExpression": false
+                  }
+                },
+                {
+                  "id": "text0",
+                  "name": "Text",
+                  "usage": "auto",
+                  "type": "text",
+                  "enabled": {
+                    "value": true,
+                    "isExpression": false
+                  },
+                  "opacity": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "x": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "y": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "width": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "height": {
+                    "value": 100,
+                    "isExpression": false
+                  },
+                  "rotation": {
+                    "value": 0,
+                    "isExpression": false
+                  },
+                  "text": {
+                    "value": "OFF",
+                    "isExpression": false
+                  },
+                  "color": {
+                    "value": 16777215,
+                    "isExpression": false
+                  },
+                  "halign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "valign": {
+                    "value": "center",
+                    "isExpression": false
+                  },
+                  "fontsize": {
+                    "value": 55,
                     "isExpression": false
                   },
                   "fontsizeAllowShrink": {

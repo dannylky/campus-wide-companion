@@ -26,7 +26,17 @@ The controls are split into ten single-purpose buttons and fill the 10-key area
 | row 0 | **System On** | **System Off** | **Video: PC** | **Video: Laptop** | **Volume Up** |
 | row 1 | **TV On** | **TV Off** | **Light On** | **Light Off** | **Volume Down** |
 | row 2 | — | — | — | — | — |
-| row 3 | — | — | — | — | — |
+| row 3 | **FOCUS** | **PRESENT** | **MEDIA** | **LIGHTS** | **OFF** |
+
+### Touch bar (row 3)
+
+Row 3 is designed as a five-segment scene slider for the N4 Pro touch/slide area:
+
+- A continuous white track line runs across the top of all five segments.
+- The background is a gradient: deep blue → blue → violet → light violet → dark magenta.
+- The center **MEDIA** segment carries a white thumb indicator at the bottom, so the strip reads as a slider.
+- Labels are single-line scene names: `FOCUS`, `PRESENT`, `MEDIA`, `LIGHTS`, `OFF`.
+- No actions, feedbacks, or commands — visual design only.
 
 Colors:
 
@@ -42,6 +52,11 @@ Colors:
 | Light On | `#d29922` amber |
 | Light Off | `#9e6a03` dark amber |
 | Volume Down | `#155e75` dark teal |
+| Touch: FOCUS | `#0b3d91` deep blue |
+| Touch: PRESENT | `#1f6feb` blue |
+| Touch: MEDIA | `#6e40c9` violet |
+| Touch: LIGHTS | `#a371f7` light violet |
+| Touch: OFF | `#8b2f5f` dark magenta |
 
 Buttons are `button-layered` with a canvas, a background box, and a two-line
 text layer at 70% font size with shrink enabled. There are **no actions,
@@ -79,6 +94,6 @@ The script uploads the config through `importExport.prepareImport.*` and calls
 ## Notes
 
 - The import replaces the buttons on page 8; the page name and grid size stay.
-- The 10 keys are fully used; rows 2–3 remain free for knobs and the touch bar.
+- Rows 0–1 are the 10 LCD keys, row 2 is the knob area (left empty), and row 3 is the touch bar.
 - If the device shows fewer buttons, check that the surface is using page 8 and
   that the page viewport is at column 0, row 0.
