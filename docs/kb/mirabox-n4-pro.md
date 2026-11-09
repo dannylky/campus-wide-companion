@@ -118,7 +118,7 @@ light connection; all state lives in custom variables.
 - Variables: `demo_z1_on` … `demo_z4_on` (0/1) and
   `demo_z1_level` … `demo_z4_level` (0–100).
 - Knobs **3/0–3/3**: Rotary actions enabled.
-  - Press toggles the zone.
+  - Press toggles the zone and increments `demo_press_count`.
   - Rotate left/right adjusts brightness by `$(this:delta)`, clamped 0–100.
 - **LIGHT ON (0/3)** mirrors Zone 1; **LIGHT OFF (1/3)** mirrors Zone 2 via
   button references.
@@ -151,11 +151,18 @@ node tools/mirabox-knob-led.mjs --colors "#ffb347,#ff8c42,#ffd166,#fff1c1" --bri
 node tools/mirabox-knob-led.mjs --off
 node tools/mirabox-knob-led.mjs --demo --once
 node tools/mirabox-knob-led.mjs --demo --watch --interval 500
+node tools/mirabox-knob-led.mjs --random
+node tools/mirabox-knob-led.mjs --random --watch --interval 250
 ```
 
 - `--demo --watch` reads the four `demo_z*` variables and scales each zone's
   RGB by its brightness; off zones are black.
 - `--demo --once` applies the current demo state once.
+- `--random` sets four distinct random colors.
+- `--random --watch` starts with a random palette and applies a new palette
+  whenever `demo_press_count` changes, i.e. on every knob press (including the
+  LIGHT ON/OFF mirrors). Colors use four spaced hues with jitter so the knobs
+  stay visually distinct.
 - `--duration <ms>` stops watch mode after a fixed time.
 
 The bridge sends the MiraBox `LBLIG` (brightness) and `SETLB` (four RGB values)

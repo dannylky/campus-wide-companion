@@ -66,6 +66,37 @@ function scaleRgb(rgb, level) {
   return rgb.map((channel) => Math.round(channel * factor));
 }
 
+function hslToRgb(hue, saturation, lightness) {
+  const h = ((hue % 360) + 360) % 360;
+  const s = Math.max(0, Math.min(100, saturation)) / 100;
+  const l = Math.max(0, Math.min(100, lightness)) / 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let rgb;
+  if (h < 60) rgb = [c, x, 0];
+  else if (h < 120) rgb = [x, c, 0];
+  else if (h < 180) rgb = [0, c, x];
+  else if (h < 240) rgb = [0, x, c];
+  else if (h < 300) rgb = [x, 0, c];
+  else rgb = [c, 0, x];
+  return rgb.map((channel) => Math.round((channel + m) * 255));
+}
+
+function randomPalette() {
+  const base = Math.random() * 360;
+  const jitter = () => Math.random() * 24 - 12;
+  const saturation = 80 + Math.random() * 20;
+  const lightness = 50 + Math.random() * 15;
+  return [0, 1, 2, 3].map((index) =>
+    hslToRgb(base + index * 90 + jitter(), saturation, lightness),
+  );
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function pad(payload) {
   const out = [...payload];
   while (out.length < REPORT_SIZE) out.push(0);
@@ -131,6 +162,7 @@ async function main() {
   const dryRun = has('dry-run');
   const off = has('off');
   const demo = has('demo');
+  const random = has('random');
   const once = has('once');
   const watch = has('watch');
   const quiet = has('quiet');
@@ -138,17 +170,20 @@ async function main() {
   const interval = Number(arg('interval', '500'));
   const duration = Number(arg('duration', '0'));
 
-  if (!demo && !off && !process.argv.includes('--colors') && !has('help')) {
+  if (!demo && !random && !off && !process.argv.includes('--colors') && !has('help')) {
     console.log('Usage:');
     console.log('  node tools/mirabox-knob-led.mjs --colors "#ffb347,#ff8c42,#ffd166,#fff1c1" --brightness 80');
     console.log('  node tools/mirabox-knob-led.mjs --off');
     console.log('  node tools/mirabox-knob-led.mjs --demo --once');
     console.log('  node tools/mirabox-knob-led.mjs --demo --watch [--interval 500] [--duration 5000]');
+    console.log('  node tools/mirabox-knob-led.mjs --random');
+    console.log('  node tools/mirabox-knob-led.mjs --random --watch [--interval 300] [--duration 5000]');
     process.exit(0);
   }
 
+  if (demo && random) throw new Error('Use either --demo or --random, not both');
   if (demo && !once && !watch) throw new Error('Use --demo --once or --demo --watch');
-  if (watch && !demo) throw new Error('--watch requires --demo');
+  if (watch && !demo && !random) throw new Error('--watch requires --demo or --random');
 
   const { device, info } = openDevice();
   console.log(`Device: ${info.product} (PID 0x${info.productId.toString(16)})`);
@@ -166,6 +201,31 @@ async function main() {
   try {
     if (off) {
       write('LEDs off', [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+      return;
+    }
+
+    if (random) {
+      if (watch) {
+        let previousCount = Number(await getVar('demo_press_count')) || 0;
+        let palette = randomPalette();
+        write('Random', palette);
+        const started = Date.now();
+        while (true) {
+          const count = Number(await getVar('demo_press_count')) || 0;
+          if (count !== previousCount) {
+            palette = randomPalette();
+            write('Random', palette);
+            previousCount = count;
+          } else if (!quiet) {
+            process.stdout.write('.');
+          }
+          if (duration > 0 && Date.now() - started >= duration) break;
+          await sleep(Math.max(100, interval));
+        }
+        if (!quiet) process.stdout.write('\n');
+      } else {
+        write('Random', randomPalette());
+      }
       return;
     }
 
@@ -191,7 +251,7 @@ async function main() {
         process.stdout.write('.');
       }
       if (duration > 0 && Date.now() - started >= duration) break;
-      await new Promise((resolve) => setTimeout(resolve, Math.max(100, interval)));
+      await sleep(Math.max(100, interval));
     }
     if (!quiet) process.stdout.write('\n');
   } finally {

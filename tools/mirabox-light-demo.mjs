@@ -59,6 +59,7 @@ function knobControl(zone, backgroundImage, canvas) {
   const color = ZONE_COLORS[zone - 1];
 
   const toggle = setVarAction(on, `1 - $(custom:${on})`);
+  const bump = setVarAction('demo_press_count', '$(custom:demo_press_count) + 1');
   const levelLeft = setVarAction(level, `min(100, max(0, $(custom:${level}) + $(this:delta)))`);
   const levelRight = setVarAction(level, `min(100, max(0, $(custom:${level}) + $(this:delta)))`);
 
@@ -108,7 +109,7 @@ function knobControl(zone, backgroundImage, canvas) {
     steps: {
       0: {
         action_sets: {
-          down: [toggle],
+          down: [toggle, bump],
           up: [],
           rotate_left: [levelLeft],
           rotate_right: [levelRight],
@@ -171,19 +172,26 @@ function masterControl(existing) {
 }
 
 function demoVariables() {
-  const vars = {};
+  const vars = {
+    demo_press_count: {
+      description: 'Demo knob press counter',
+      defaultValue: '0',
+      persistCurrentValue: false,
+      sortOrder: 0,
+    },
+  };
   for (let zone = 1; zone <= 4; zone += 1) {
     vars[`demo_z${zone}_on`] = {
       description: `Demo light zone ${zone} on/off`,
       defaultValue: '0',
       persistCurrentValue: false,
-      sortOrder: (zone - 1) * 2,
+      sortOrder: (zone - 1) * 2 + 1,
     };
     vars[`demo_z${zone}_level`] = {
       description: `Demo light zone ${zone} brightness`,
       defaultValue: '50',
       persistCurrentValue: false,
-      sortOrder: (zone - 1) * 2 + 1,
+      sortOrder: (zone - 1) * 2 + 2,
     };
   }
   return vars;
@@ -223,6 +231,7 @@ async function press(page, row, column, action = 'press') {
 }
 
 async function resetDemo() {
+  await setVar('demo_press_count', '0');
   for (let zone = 1; zone <= 4; zone += 1) {
     await setVar(`demo_z${zone}_on`, '0');
     await setVar(`demo_z${zone}_level`, '50');
@@ -304,8 +313,19 @@ await fs.writeFile(BACKUP, `${JSON.stringify(companion, null, 2)}\n`, 'utf8');
 const controls = JSON.parse(JSON.stringify(page8.controls || {}));
 const lightOn = controls['0']?.['3'];
 if (!lightOn) throw new Error('LIGHT ON button at 0/3 not found');
-const backgroundImage = lightOn.style.layers.find((layer) => layer.type === 'image');
-const canvas = lightOn.style.layers.find((layer) => layer.type === 'canvas');
+
+let sourceButton = lightOn;
+if (!sourceButton.style?.layers) {
+  const modernPath = path.join(ROOT, 'config/public/layouts/mirabox-n4-pro-modern.json');
+  const modern = JSON.parse(await fs.readFile(modernPath, 'utf8'));
+  sourceButton = modern.pages?.['1']?.controls?.['0']?.['3'];
+  if (!sourceButton?.style?.layers) {
+    throw new Error('Aurora Glass LIGHT ON image not found in the modern layout artifact');
+  }
+}
+
+const backgroundImage = sourceButton.style.layers.find((layer) => layer.type === 'image');
+const canvas = sourceButton.style.layers.find((layer) => layer.type === 'canvas');
 if (!backgroundImage || !canvas) throw new Error('LIGHT ON image/canvas layer not found');
 
 controls['3'] = controls['3'] || {};
