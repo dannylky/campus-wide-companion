@@ -137,8 +137,33 @@ node tools/mirabox-light-demo.mjs --test-only
 Backup: `out/backup-before-light-demo.companionconfig`.
 
 The physical knobs have no LCD; the effect is visible on the mirrored LIGHT
-ON/OFF keys and the LIGHTS touch segment. Knob ring LEDs are not controlled by
-Companion's button grid.
+ON/OFF keys and the LIGHTS touch segment. Knob ring LEDs are controlled by the
+HID bridge below.
+
+## Knob ring LEDs
+
+The N4 Pro has four RGB knob rings. Companion's MiraBox surface module 1.3.0
+does not expose them as LED outputs (it only maps the LCD keys and touch strip),
+so the rings are controlled by a small HID bridge.
+
+```bash
+node tools/mirabox-knob-led.mjs --colors "#ffb347,#ff8c42,#ffd166,#fff1c1" --brightness 80
+node tools/mirabox-knob-led.mjs --off
+node tools/mirabox-knob-led.mjs --demo --once
+node tools/mirabox-knob-led.mjs --demo --watch --interval 500
+```
+
+- `--demo --watch` reads the four `demo_z*` variables and scales each zone's
+  RGB by its brightness; off zones are black.
+- `--demo --once` applies the current demo state once.
+- `--duration <ms>` stops watch mode after a fixed time.
+
+The bridge sends the MiraBox `LBLIG` (brightness) and `SETLB` (four RGB values)
+HID commands. Brightness is global on the device, so per-zone brightness is
+simulated by scaling RGB. The rings may reset on reconnect; restart the bridge
+after Companion reconnects.
+
+Native control would require forking the surface module to add four LED outputs.
 
 ## Files
 
@@ -149,6 +174,7 @@ Companion's button grid.
 - `tools/mirabox-icons.mjs` — fetches, rasterizes, and applies icons.
 - `tools/mirabox-button-images.mjs` — renders and applies the modern button images.
 - `tools/mirabox-light-demo.mjs` — builds and tests the four-zone light demo.
+- `tools/mirabox-knob-led.mjs` — drives the four knob ring LEDs over HID.
 
 ## Re-apply
 
