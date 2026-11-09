@@ -23,12 +23,16 @@ function pageId() {
 }
 
 const BUTTONS = [
-  { row: 0, col: 1, text: 'SYSTEM\nON/OFF', bgcolor: '#1f6feb' },
-  { row: 0, col: 2, text: 'VIDEO\nPC', bgcolor: '#238636' },
-  { row: 0, col: 3, text: 'VIDEO\nLAPTOP', bgcolor: '#238636' },
-  { row: 1, col: 1, text: 'TV\nON/OFF', bgcolor: '#8957e5' },
-  { row: 1, col: 2, text: 'LIGHT\nON/OFF', bgcolor: '#d29922' },
-  { row: 1, col: 3, text: 'VOLUME\nUP/DOWN', bgcolor: '#0e7490' },
+  { row: 0, col: 0, text: 'SYSTEM\nON', bgcolor: '#238636' },
+  { row: 0, col: 1, text: 'SYSTEM\nOFF', bgcolor: '#b62324' },
+  { row: 0, col: 2, text: 'VIDEO\nPC', bgcolor: '#1f6feb' },
+  { row: 0, col: 3, text: 'VIDEO\nLAPTOP', bgcolor: '#1f6feb' },
+  { row: 0, col: 4, text: 'VOLUME\nUP', bgcolor: '#0e7490' },
+  { row: 1, col: 0, text: 'TV\nON', bgcolor: '#8957e5' },
+  { row: 1, col: 1, text: 'TV\nOFF', bgcolor: '#6e40c9' },
+  { row: 1, col: 2, text: 'LIGHT\nON', bgcolor: '#d29922' },
+  { row: 1, col: 3, text: 'LIGHT\nOFF', bgcolor: '#9e6a03' },
+  { row: 1, col: 4, text: 'VOLUME\nDOWN', bgcolor: '#155e75' },
 ];
 
 function buildLayout() {
@@ -152,7 +156,7 @@ const config = buildLayout();
 await fs.mkdir(path.dirname(OUT), { recursive: true });
 await fs.writeFile(OUT, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
 
-console.log(`Layout:   3x2 centered on the 5x4 N4 Pro surface`);
+console.log(`Layout:   5x2, filling the 10-key N4 Pro area`);
 console.log(`Buttons:  ${BUTTONS.length}`);
 for (const spec of BUTTONS) console.log(`  ${spec.row}/${spec.col}  ${spec.text.replace('\n', ' ')}`);
 console.log(`Target:   page ${TARGET_PAGE}`);

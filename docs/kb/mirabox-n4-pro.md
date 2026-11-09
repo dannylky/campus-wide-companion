@@ -18,13 +18,13 @@ four knobs and the touch bar.
 
 ## Layout
 
-The six requested functions are arranged as a 3×2 block centered on the
-10-key area, leaving the leftmost and rightmost columns free:
+The controls are split into ten single-purpose buttons and fill the 10-key area
+(5×2). Each on/off pair has its own key:
 
 | | col 0 | col 1 | col 2 | col 3 | col 4 |
 |---|---|---|---|---|---|
-| row 0 | — | **System On/Off** | **Video: PC** | **Video: Laptop** | — |
-| row 1 | — | **TV On/Off** | **Light On/Off** | **Volume Up/Down** | — |
+| row 0 | **System On** | **System Off** | **Video: PC** | **Video: Laptop** | **Volume Up** |
+| row 1 | **TV On** | **TV Off** | **Light On** | **Light Off** | **Volume Down** |
 | row 2 | — | — | — | — | — |
 | row 3 | — | — | — | — | — |
 
@@ -32,12 +32,16 @@ Colors:
 
 | Button | Color |
 |---|---|
-| System On/Off | `#1f6feb` blue |
-| Video: PC | `#238636` green |
-| Video: Laptop | `#238636` green |
-| TV On/Off | `#8957e5` purple |
-| Light On/Off | `#d29922` amber |
-| Volume Up/Down | `#0e7490` teal |
+| System On | `#238636` green |
+| System Off | `#b62324` red |
+| Video: PC | `#1f6feb` blue |
+| Video: Laptop | `#1f6feb` blue |
+| Volume Up | `#0e7490` teal |
+| TV On | `#8957e5` purple |
+| TV Off | `#6e40c9` dark purple |
+| Light On | `#d29922` amber |
+| Light Off | `#9e6a03` dark amber |
+| Volume Down | `#155e75` dark teal |
 
 Buttons are `button-layered` with a canvas, a background box, and a two-line
 text layer at 70% font size with shrink enabled. There are **no actions,
@@ -75,6 +79,6 @@ The script uploads the config through `importExport.prepareImport.*` and calls
 ## Notes
 
 - The import replaces the buttons on page 8; the page name and grid size stay.
-- The four unused key positions are left free for future controls.
+- The 10 keys are fully used; rows 2–3 remain free for knobs and the touch bar.
 - If the device shows fewer buttons, check that the surface is using page 8 and
   that the page viewport is at column 0, row 0.
