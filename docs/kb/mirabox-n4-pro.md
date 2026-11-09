@@ -152,6 +152,16 @@ The N4 Pro has four RGB knob rings. Companion's MiraBox surface module 1.3.0
 does not expose them as LED outputs (it only maps the LCD keys and touch strip),
 so the rings are controlled by a small HID bridge.
 
+**Start / stop**
+```bat
+start-knob-led.bat          REM random palette on every knob press
+start-knob-led.bat demo     REM follow light/volume zones
+stop-knob-led.bat
+```
+
+The start launcher must stay open; press Ctrl+C or run the stop launcher to
+stop it. The start launcher refuses to start a second copy.
+
 ```bash
 node tools/mirabox-knob-led.mjs --colors "#ffb347,#ff8c42,#ffd166,#fff1c1" --brightness 80
 node tools/mirabox-knob-led.mjs --off
@@ -266,6 +276,8 @@ or press Ctrl+C in the start window, or run `Stop-Process -Id <pid>`.
 - `tools/mirabox-button-images.mjs` — renders and applies the modern button images.
 - `tools/mirabox-light-demo.mjs` — builds and tests the four-zone light demo.
 - `tools/mirabox-knob-led.mjs` — drives the four knob ring LEDs over HID.
+- `start-knob-led.bat` — starts the knob LED effect (random or demo mode).
+- `stop-knob-led.bat` — stops the knob LED effect.
 - `tools/mirabox-background.mjs` — flashes a static 800×480 full-face background.
 - `tools/mirabox-animated-background.mjs` — streams the animated BAT compositor.
 - `start-animated-background.bat` — Windows launcher for the compositor.
