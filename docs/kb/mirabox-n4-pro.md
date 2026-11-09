@@ -224,17 +224,20 @@ driver/compositor or a surface-module fork.
 `tools/mirabox-animated-background.mjs` implements the compositor:
 
 ```bash
+start-animated-background.bat
 node tools/mirabox-animated-background.mjs --fps 5
 node tools/mirabox-animated-background.mjs --fps 10 --speed 4
 node tools/mirabox-animated-background.mjs --dry-run
-node tools/mirabox-animated-background.mjs --no-face
+node tools/mirabox-animated-background.mjs --face
 ```
 
 - Renders a scrolling aurora background, slices the 10 key tiles and 4
   touch-strip windows, composites white icon/text overlays with luminance
   keying, rotates each tile 180°, and streams them via `BAT`.
-- At startup it builds a matching 800×480 face and flashes it with `LOG` so the
-  bezel gaps match; use `--no-face` to skip the flash write.
+- The compositor must stay running for the keys to animate. The static aurora
+  face is persistent; the keys only animate while the process is streaming.
+- The matching 800×480 face is **not** flashed by default. Use `--face` once
+  when the background changes; `LOG` is a firmware flash write.
 - `--dry-run` writes `out/animated-background-preview.png` and does not touch
   the device.
 - It takes over key painting while running. Companion still handles button
@@ -255,6 +258,7 @@ node tools/mirabox-animated-background.mjs --no-face
 - `tools/mirabox-knob-led.mjs` — drives the four knob ring LEDs over HID.
 - `tools/mirabox-background.mjs` — flashes a static 800×480 full-face background.
 - `tools/mirabox-animated-background.mjs` — streams the animated BAT compositor.
+- `start-animated-background.bat` — Windows launcher for the compositor.
 
 ## Re-apply
 

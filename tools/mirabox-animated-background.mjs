@@ -374,7 +374,7 @@ async function main() {
   const duration = Number(arg('duration', '0'));
   const quality = Math.max(50, Math.min(95, Number(arg('quality', '80'))));
   const dryRun = has('dry-run');
-  const noFace = has('no-face');
+  const flashFace = has('face') && !has('no-face');
   const speed = Math.max(1, Number(arg('speed', '4')));
 
   const moduleDir = findSurfaceModule();
@@ -408,11 +408,13 @@ async function main() {
   console.log(`Device:  ${info.product} (PID 0x${info.productId.toString(16)})`);
 
   try {
-    if (!noFace) {
+    if (flashFace) {
       const face = await buildFace(canvas);
       console.log(`Face:    ${path.relative(ROOT, FACE_JPEG)} (${face.length} bytes), flashing...`);
       sendFace(device, face);
       await sleep(2500);
+    } else {
+      console.log('Face:    skipped (use --face to flash the LOG face)');
     }
 
     console.log(`Streaming at ${fps} FPS. Press Ctrl+C to stop.`);
