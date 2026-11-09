@@ -179,6 +179,46 @@ after Companion reconnects.
 
 Native control would require forking the surface module to add four LED outputs.
 
+## Background
+
+### Static full-face background
+
+The N4 Pro accepts a persistent **800×480 JPEG** full-face background via the
+`LOG` HID command. It sits behind the keys and touch strip, survives power
+cycles, and does not require the MiraBox app.
+
+```bash
+node tools/mirabox-background.mjs --gradient
+node tools/mirabox-background.mjs --image <path>
+node tools/mirabox-background.mjs --off
+```
+
+- The tool resizes/pads to 800×480, pre-rotates 180° (the firmware displays it
+  rotated back), encodes JPEG, and flashes it.
+- `LOG` is a **firmware flash write**: the device blocks for ~2.5s and drops
+  commands sent during the write. Do not call it per frame.
+- `--dry-run` renders `out/mirabox-background.jpg` without touching the device.
+- `--no-rotate` skips the 180° pre-rotation.
+
+### Animated backgrounds
+
+Companion's MiraBox surface module 1.3.0 does **not** implement animated
+backgrounds; it only writes static per-key images. The vendor's live
+`BGPIC` background stream was tested by the OpenDeck video-background fork and
+was a **no-op on the N4 Pro firmware revision** it targeted, so it is not a
+reliable path here.
+
+True animation without the MiraBox app requires a host-side compositor:
+
+1. Decode a video/GIF into 800×480 frames.
+2. Slice each frame into the 10 key tiles and 4 touch-strip windows.
+3. Composite transparent icon/text overlays over each tile.
+4. Stream the tiles with the `BAT` command at ~10 FPS.
+
+That is the approach used by the OpenDeck `video background` fork. It needs to
+take over key painting (Companion writes its own images), so it is a separate
+driver/compositor or a surface-module fork rather than a small script.
+
 ## Files
 
 - `config/public/layouts/mirabox-n4-pro.json` — base layout page config.
@@ -189,6 +229,7 @@ Native control would require forking the surface module to add four LED outputs.
 - `tools/mirabox-button-images.mjs` — renders and applies the modern button images.
 - `tools/mirabox-light-demo.mjs` — builds and tests the four-zone light demo.
 - `tools/mirabox-knob-led.mjs` — drives the four knob ring LEDs over HID.
+- `tools/mirabox-background.mjs` — flashes a static 800×480 full-face background.
 
 ## Re-apply
 
