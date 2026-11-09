@@ -110,6 +110,36 @@ To copy the modern design to the backup page:
 node tools/copy-page.mjs --from 8 --to 9 --apply
 ```
 
+## Light demo
+
+Pages 8 and 9 include a self-contained four-zone light demo. It uses no real
+light connection; all state lives in custom variables.
+
+- Variables: `demo_z1_on` … `demo_z4_on` (0/1) and
+  `demo_z1_level` … `demo_z4_level` (0–100).
+- Knobs **3/0–3/3**: Rotary actions enabled.
+  - Press toggles the zone.
+  - Rotate left/right adjusts brightness by `$(this:delta)`, clamped 0–100.
+- **LIGHT ON (0/3)** mirrors Zone 1; **LIGHT OFF (1/3)** mirrors Zone 2 via
+  button references.
+- **LIGHTS touch segment (2/3)** is the master: it shows
+  `LIGHTS n/4 · avg%` and toggles all zones on press.
+- Warm hues: amber, orange, gold, warm white.
+- Page 9 uses references to `9/3/0` and `9/3/1`.
+
+Apply and test:
+
+```bash
+node tools/mirabox-light-demo.mjs --apply --test
+node tools/mirabox-light-demo.mjs --test-only
+```
+
+Backup: `out/backup-before-light-demo.companionconfig`.
+
+The physical knobs have no LCD; the effect is visible on the mirrored LIGHT
+ON/OFF keys and the LIGHTS touch segment. Knob ring LEDs are not controlled by
+Companion's button grid.
+
 ## Files
 
 - `config/public/layouts/mirabox-n4-pro.json` — base layout page config.
@@ -118,6 +148,7 @@ node tools/copy-page.mjs --from 8 --to 9 --apply
 - `tools/mirabox-layout.mjs` — regenerates the base layout and optionally applies it.
 - `tools/mirabox-icons.mjs` — fetches, rasterizes, and applies icons.
 - `tools/mirabox-button-images.mjs` — renders and applies the modern button images.
+- `tools/mirabox-light-demo.mjs` — builds and tests the four-zone light demo.
 
 ## Re-apply
 
