@@ -221,15 +221,25 @@ driver/compositor or a surface-module fork.
 
 ### BAT compositor
 
-`tools/mirabox-animated-background.mjs` implements the compositor:
+`tools/mirabox-animated-background.mjs` implements the compositor.
 
-```bash
+**Start**
+```bat
 start-animated-background.bat
+```
+or:
+```bash
 node tools/mirabox-animated-background.mjs --fps 5
 node tools/mirabox-animated-background.mjs --fps 10 --speed 4
 node tools/mirabox-animated-background.mjs --dry-run
 node tools/mirabox-animated-background.mjs --face
 ```
+
+**Stop**
+```bat
+stop-animated-background.bat
+```
+or press Ctrl+C in the start window, or run `Stop-Process -Id <pid>`.
 
 - Renders a scrolling aurora background, slices the 10 key tiles and 4
   touch-strip windows, composites white icon/text overlays with luminance
@@ -241,8 +251,8 @@ node tools/mirabox-animated-background.mjs --face
 - `--dry-run` writes `out/animated-background-preview.png` and does not touch
   the device.
 - It takes over key painting while running. Companion still handles button
-  presses/rotations. Stop with Ctrl+C; Companion repaints its buttons on the
-  next update.
+  presses/rotations. Stop with Ctrl+C or the stop launcher; Companion repaints
+  its buttons on the next update.
 - The overlays are currently static labels; dynamic state text (light/volume)
   is not yet wired.
 
@@ -259,6 +269,7 @@ node tools/mirabox-animated-background.mjs --face
 - `tools/mirabox-background.mjs` — flashes a static 800×480 full-face background.
 - `tools/mirabox-animated-background.mjs` — streams the animated BAT compositor.
 - `start-animated-background.bat` — Windows launcher for the compositor.
+- `stop-animated-background.bat` — stops the compositor process.
 
 ## Re-apply
 

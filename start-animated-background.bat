@@ -12,6 +12,16 @@ if errorlevel 1 (
   exit /b 1
 )
 
+powershell -NoProfile -Command "if (Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'node.exe' -and $_.CommandLine -match 'mirabox-animated-background' }) { exit 1 } else { exit 0 }"
+if errorlevel 1 (
+  echo.
+  echo The animated background compositor is already running.
+  echo Use stop-animated-background.bat first.
+  echo.
+  pause
+  exit /b 1
+)
+
 echo Starting animated N4 Pro background compositor...
 echo.
 echo Keep this window open while you want the animation.
