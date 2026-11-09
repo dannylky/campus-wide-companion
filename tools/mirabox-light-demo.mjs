@@ -121,30 +121,28 @@ function knobControl(zone, backgroundImage, canvas) {
   };
 }
 
-function volumeKnobControl(direction, backgroundImage, canvas) {
-  const isUp = direction === 'up';
-  const toggleMute = setVarAction('demo_volume_mute', '1 - $(custom:demo_volume_mute)');
+function volumeKnobControl(zone, backgroundImage, canvas) {
+  const volume = `demo_volume${zone}`;
+  const mute = `demo_volume${zone}_mute`;
+  const toggleMute = setVarAction(mute, `1 - $(custom:${mute})`);
   const bump = setVarAction('demo_press_count', '$(custom:demo_press_count) + 1');
-  const unmute = setVarAction('demo_volume_mute', '0');
-  const delta = 'max($(this:delta), -$(this:delta))';
+  const unmute = setVarAction(mute, '0');
   const adjust = setVarAction(
-    'demo_volume',
-    isUp
-      ? `min(100, max(0, $(custom:demo_volume) + ${delta}))`
-      : `min(100, max(0, $(custom:demo_volume) - ${delta}))`,
+    volume,
+    `min(100, max(0, $(custom:${volume}) + $(this:delta)))`,
   );
-  const glowColor = isUp ? '0x00ffc8' : '0x00d4ff';
+  const glowColor = zone === 1 ? '0x00d4ff' : '0x00ffc8';
   const glow = {
-    ...boxLayer(isUp ? '#00ffc8' : '#00d4ff'),
+    ...boxLayer(zone === 1 ? '#00d4ff' : '#00ffc8'),
     id: 'glow',
     name: 'Glow',
-    color: expr(`bool($(custom:demo_volume_mute)) ? 0xff3b30 : ${glowColor}`),
-    opacity: expr('bool($(custom:demo_volume_mute)) ? 70 : 10 + $(custom:demo_volume) * 0.8'),
+    color: expr(`bool($(custom:${mute})) ? 0xff3b30 : ${glowColor}`),
+    opacity: expr(`bool($(custom:${mute})) ? 70 : 10 + $(custom:${volume}) * 0.8`),
   };
   const text = textLayer('', '#ffffff', 50);
   text.text = expr(
-    "bool($(custom:demo_volume_mute)) ? 'VOL\\nMUTE' : " +
-      '`VOL\\n${$(custom:demo_volume)}%`',
+    `bool($(custom:${mute})) ? 'ZONE ${zone}\\nMUTE' : ` +
+      `\`ZONE ${zone}\\n\${$(custom:${volume})}%\``,
   );
   text.x.value = 0;
   text.y.value = 62;
@@ -242,7 +240,7 @@ function demoVariables() {
       sortOrder: 0,
     },
   };
-  for (let zone = 1; zone <= 4; zone += 1) {
+  for (let zone = 1; zone <= 2; zone += 1) {
     vars[`demo_z${zone}_on`] = {
       description: `Demo light zone ${zone} on/off`,
       defaultValue: '0',
@@ -256,17 +254,29 @@ function demoVariables() {
       sortOrder: (zone - 1) * 2 + 2,
     };
   }
-  vars.demo_volume = {
-    description: 'Demo volume level',
+  vars.demo_volume1 = {
+    description: 'Demo Zone 1 volume level',
     defaultValue: '50',
     persistCurrentValue: false,
     sortOrder: 10,
   };
-  vars.demo_volume_mute = {
-    description: 'Demo volume mute',
+  vars.demo_volume1_mute = {
+    description: 'Demo Zone 1 volume mute',
     defaultValue: '0',
     persistCurrentValue: false,
     sortOrder: 11,
+  };
+  vars.demo_volume2 = {
+    description: 'Demo Zone 2 volume level',
+    defaultValue: '50',
+    persistCurrentValue: false,
+    sortOrder: 12,
+  };
+  vars.demo_volume2_mute = {
+    description: 'Demo Zone 2 volume mute',
+    defaultValue: '0',
+    persistCurrentValue: false,
+    sortOrder: 13,
   };
   return vars;
 }
@@ -306,9 +316,11 @@ async function press(page, row, column, action = 'press') {
 
 async function resetDemo() {
   await setVar('demo_press_count', '0');
-  await setVar('demo_volume', '50');
-  await setVar('demo_volume_mute', '0');
-  for (let zone = 1; zone <= 4; zone += 1) {
+  await setVar('demo_volume1', '50');
+  await setVar('demo_volume1_mute', '0');
+  await setVar('demo_volume2', '50');
+  await setVar('demo_volume2_mute', '0');
+  for (let zone = 1; zone <= 2; zone += 1) {
     await setVar(`demo_z${zone}_on`, '0');
     await setVar(`demo_z${zone}_level`, '50');
   }
@@ -369,22 +381,38 @@ async function testDemo() {
     }
   }
 
-  await setVar('demo_volume', '50');
-  await setVar('demo_volume_mute', '0');
+  await setVar('demo_volume1', '50');
+  await setVar('demo_volume1_mute', '0');
   await press(PAGE_8, 3, 2, 'press');
-  if ((await getVar('demo_volume_mute')) !== '1') throw new Error('volume down press did not mute');
+  if ((await getVar('demo_volume1_mute')) !== '1') throw new Error('Zone 1 volume press did not mute');
   await press(PAGE_8, 3, 2, 'press');
-  if ((await getVar('demo_volume_mute')) !== '0') throw new Error('volume down press did not unmute');
-
-  await press(PAGE_8, 3, 3, 'rotate-right');
-  const upVolume = Number(await getVar('demo_volume'));
-  if (!(upVolume > 50)) throw new Error(`volume up rotate did not raise volume: ${upVolume}`);
-
+  if ((await getVar('demo_volume1_mute')) !== '0') throw new Error('Zone 1 volume press did not unmute');
+  await press(PAGE_8, 3, 2, 'rotate-right');
+  const zone1Volume = Number(await getVar('demo_volume1'));
+  if (!(zone1Volume > 50)) throw new Error(`Zone 1 volume rotate did not raise volume: ${zone1Volume}`);
   await press(PAGE_8, 3, 2, 'rotate-left');
-  const downVolume = Number(await getVar('demo_volume'));
-  if (!(downVolume < upVolume)) {
-    throw new Error(`volume down rotate did not lower volume: ${downVolume}`);
+  const zone1Down = Number(await getVar('demo_volume1'));
+  if (!(zone1Down < zone1Volume)) {
+    throw new Error(`Zone 1 volume rotate did not lower volume: ${zone1Down}`);
   }
+  await press(PAGE_8, 0, 4, 'press');
+  if ((await getVar('demo_volume1_mute')) !== '1') throw new Error('VOLUME UP mirror did not mute Zone 1');
+  await press(PAGE_8, 0, 4, 'press');
+  if ((await getVar('demo_volume1_mute')) !== '0') throw new Error('VOLUME UP mirror did not unmute Zone 1');
+
+  await setVar('demo_volume2', '50');
+  await setVar('demo_volume2_mute', '0');
+  await press(PAGE_8, 3, 3, 'press');
+  if ((await getVar('demo_volume2_mute')) !== '1') throw new Error('Zone 2 volume press did not mute');
+  await press(PAGE_8, 3, 3, 'press');
+  if ((await getVar('demo_volume2_mute')) !== '0') throw new Error('Zone 2 volume press did not unmute');
+  await press(PAGE_8, 3, 3, 'rotate-right');
+  const zone2Volume = Number(await getVar('demo_volume2'));
+  if (!(zone2Volume > 50)) throw new Error(`Zone 2 volume rotate did not raise volume: ${zone2Volume}`);
+  await press(PAGE_8, 1, 4, 'press');
+  if ((await getVar('demo_volume2_mute')) !== '1') throw new Error('VOLUME DOWN mirror did not mute Zone 2');
+  await press(PAGE_8, 1, 4, 'press');
+  if ((await getVar('demo_volume2_mute')) !== '0') throw new Error('VOLUME DOWN mirror did not unmute Zone 2');
 
   await resetDemo();
   console.log('Demo test: PASS');
@@ -424,15 +452,19 @@ if (!canvas || !lightImage || !volUpImage || !volDownImage) {
 controls['3'] = controls['3'] || {};
 controls['3']['0'] = knobControl(1, lightImage, canvas);
 controls['3']['1'] = knobControl(2, lightImage, canvas);
-controls['3']['2'] = volumeKnobControl('down', volDownImage, canvas);
-controls['3']['3'] = volumeKnobControl('up', volUpImage, canvas);
+controls['3']['2'] = volumeKnobControl(1, volUpImage, canvas);
+controls['3']['3'] = volumeKnobControl(2, volDownImage, canvas);
 controls['0']['3'] = referenceControl(PAGE_8, 3, 0);
 controls['1']['3'] = referenceControl(PAGE_8, 3, 1);
+controls['0']['4'] = referenceControl(PAGE_8, 3, 2);
+controls['1']['4'] = referenceControl(PAGE_8, 3, 3);
 controls['2']['3'] = masterControl(controls['2']['3']);
 
 const controls9 = JSON.parse(JSON.stringify(controls));
 controls9['0']['3'] = referenceControl(PAGE_9, 3, 0);
 controls9['1']['3'] = referenceControl(PAGE_9, 3, 1);
+controls9['0']['4'] = referenceControl(PAGE_9, 3, 2);
+controls9['1']['4'] = referenceControl(PAGE_9, 3, 3);
 
 const customVariables = {
   ...(companion.custom_variables || {}),
@@ -463,8 +495,8 @@ await fs.writeFile(PAGE8_CONFIG, `${JSON.stringify(config8, null, 2)}\n`, 'utf8'
 await fs.writeFile(PAGE9_CONFIG, `${JSON.stringify(config9, null, 2)}\n`, 'utf8');
 
 console.log(`Demo variables: ${Object.keys(demoVariables()).join(', ')}`);
-console.log(`Knob buttons:   page ${PAGE_8} 3/0-3/1 light, 3/2 volume down, 3/3 volume up`);
-console.log(`Mirrors:        LIGHT ON -> ${PAGE_8}/3/0, LIGHT OFF -> ${PAGE_8}/3/1, LIGHTS -> master`);
+console.log(`Knob buttons:   page ${PAGE_8} 3/0-3/1 light, 3/2 Zone 1 volume, 3/3 Zone 2 volume`);
+console.log(`Mirrors:        LIGHT ON -> ${PAGE_8}/3/0, LIGHT OFF -> ${PAGE_8}/3/1, VOLUME UP -> ${PAGE_8}/3/2, VOLUME DOWN -> ${PAGE_8}/3/3, LIGHTS -> master`);
 console.log(`Wrote:          ${path.relative(ROOT, PAGE8_CONFIG)}`);
 console.log(`Wrote:          ${path.relative(ROOT, PAGE9_CONFIG)}`);
 console.log(`Backup:         ${path.relative(ROOT, BACKUP)}`);

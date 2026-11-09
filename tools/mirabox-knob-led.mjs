@@ -152,10 +152,13 @@ async function demoColors() {
     colors.push(String(on) === '1' ? scaleRgb(base, level) : [0, 0, 0]);
   }
 
-  const volume = Number(await getVar('demo_volume')) || 0;
-  const mute = String(await getVar('demo_volume_mute')) === '1';
-  colors.push(mute ? [255, 59, 48] : scaleRgb(hexToRgb('#00d4ff'), volume));
-  colors.push(mute ? [255, 59, 48] : scaleRgb(hexToRgb('#00ffc8'), volume));
+  const volume1 = Number(await getVar('demo_volume1')) || 0;
+  const mute1 = String(await getVar('demo_volume1_mute')) === '1';
+  colors.push(mute1 ? [255, 59, 48] : scaleRgb(hexToRgb('#00d4ff'), volume1));
+
+  const volume2 = Number(await getVar('demo_volume2')) || 0;
+  const mute2 = String(await getVar('demo_volume2_mute')) === '1';
+  colors.push(mute2 ? [255, 59, 48] : scaleRgb(hexToRgb('#00ffc8'), volume2));
   return colors;
 }
 

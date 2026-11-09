@@ -112,23 +112,26 @@ node tools/copy-page.mjs --from 8 --to 9 --apply
 
 ## Light demo
 
-Pages 8 and 9 include a self-contained four-zone light demo. It uses no real
-light connection; all state lives in custom variables.
+Pages 8 and 9 include a self-contained two-zone light demo plus two volume
+zones. It uses no real light or audio connection; all state lives in custom
+variables.
 
 - Variables: `demo_z1_on`/`demo_z1_level`, `demo_z2_on`/`demo_z2_level`,
-  `demo_volume`, `demo_volume_mute`, and `demo_press_count`.
+  `demo_volume1`, `demo_volume1_mute`, `demo_volume2`, `demo_volume2_mute`, and
+  `demo_press_count`.
 - Knobs **3/0–3/1**: light zones 1–2. Press toggles the zone and increments
   `demo_press_count`; rotate adjusts brightness by `$(this:delta)`.
-- Knob **3/2**: volume down. Press toggles mute; rotate either direction lowers
+- Knob **3/2**: Zone 1 volume. Press toggles Zone 1 mute; rotate adjusts Zone 1
   volume and unmutes.
-- Knob **3/3**: volume up. Press toggles mute; rotate either direction raises
+- Knob **3/3**: Zone 2 volume. Press toggles Zone 2 mute; rotate adjusts Zone 2
   volume and unmutes.
-- **LIGHT ON (0/3)** mirrors Zone 1; **LIGHT OFF (1/3)** mirrors Zone 2 via
-  button references.
+- **LIGHT ON (0/3)** mirrors Zone 1; **LIGHT OFF (1/3)** mirrors Zone 2.
+- **VOLUME UP (0/4)** mirrors knob 3 (Zone 1 volume); **VOLUME DOWN (1/4)**
+  mirrors knob 4 (Zone 2 volume).
 - **LIGHTS touch segment (2/3)** is the master: it shows
   `LIGHTS n/2 · avg%` and toggles zones 1–2 on press.
-- Warm hues: amber, orange, gold, warm white.
-- Page 9 uses references to `9/3/0` and `9/3/1`.
+- Warm hues: amber and orange for the light zones; cyan and teal for volume.
+- Page 9 uses references to `9/3/0`–`9/3/3`.
 
 Apply and test:
 
@@ -140,8 +143,8 @@ node tools/mirabox-light-demo.mjs --test-only
 Backup: `out/backup-before-light-demo.companionconfig`.
 
 The physical knobs have no LCD; the effect is visible on the mirrored LIGHT
-ON/OFF keys and the LIGHTS touch segment. Knob ring LEDs are controlled by the
-HID bridge below.
+ON/OFF and VOLUME UP/DOWN keys and the LIGHTS touch segment. Knob ring LEDs are
+controlled by the HID bridge below.
 
 ## Knob ring LEDs
 
@@ -159,7 +162,8 @@ node tools/mirabox-knob-led.mjs --random --watch --interval 250
 ```
 
 - `--demo --watch` reads the light/volume variables: knobs 1–2 follow light
-  zones 1–2, knobs 3–4 follow volume (red when muted); off zones are black.
+  zones 1–2, knobs 3–4 follow Zone 1/Zone 2 volume (red when muted); off zones
+  are black.
 - `--demo --once` applies the current demo state once.
 - `--random` sets four distinct random colors.
 - `--random --watch` starts with a random palette and applies a new palette
