@@ -62,10 +62,41 @@ Buttons are `button-layered` with a canvas, a background box, and a two-line
 text layer at 70% font size with shrink enabled. There are **no actions,
 feedbacks, or commands** — this is layout only.
 
+## Icons
+
+Each button now has a static Material Design icon rendered to a 64×64
+transparent PNG and embedded as an image layer. The icon sits above the text on
+the keys and to the left of the text on the touch bar.
+
+| Button | Icon | Button | Icon |
+|---|---|---|---|
+| System On | `power` | System Off | `power-off` |
+| TV On | `television` | TV Off | `television-off` |
+| Video PC | `monitor` | Video Laptop | `laptop` |
+| Light On | `lightbulb-on` | Light Off | `lightbulb-off` |
+| Volume Up | `volume-high` | Volume Down | `volume-low` |
+| Focus | `target` | Present | `presentation` |
+| Media | `play-circle` | Lights | `lightbulb-group` |
+| Off | `power-standby` | | |
+
+Companion does not support animated GIF icons in the button renderer
+(upstream issue #262 is still open), so the icons are static PNGs. The icon
+pipeline uses headless Edge/Chrome to rasterize MDI SVGs with transparency:
+
+```bash
+node tools/mirabox-icons.mjs --apply
+```
+
+Use `--svg` to force SVG data URLs, or `--out <path>` to change the generated
+artifact. The iconized layout is saved as
+`config/public/layouts/mirabox-n4-pro-icons.json`.
+
 ## Files
 
-- `config/public/layouts/mirabox-n4-pro.json` — importable page config.
-- `tools/mirabox-layout.mjs` — regenerates the layout and optionally applies it.
+- `config/public/layouts/mirabox-n4-pro.json` — importable base page config.
+- `config/public/layouts/mirabox-n4-pro-icons.json` — current page with PNG icons.
+- `tools/mirabox-layout.mjs` — regenerates the base layout and optionally applies it.
+- `tools/mirabox-icons.mjs` — fetches, rasterizes, and applies the icons.
 
 ## Re-apply
 
