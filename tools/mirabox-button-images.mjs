@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { importPage } from '../lib/companion-import.js';
 import { rasterizeHtml, pngDataUrl, findBrowser } from '../lib/rasterize.js';
-import { value } from '../lib/build/templates.js';
+import { value, textLayer as makeTextLayer } from '../lib/build/templates.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.COMPANION_URL || 'http://127.0.0.1:8000';
@@ -38,6 +38,24 @@ const THEMES = {
 
 const TOUCH_LABELS = ['FOCUS', 'PRESENT', 'MEDIA', 'LIGHTS', 'OFF'];
 
+const LABEL_BY_POSITION = {
+  '0/0': 'SYSTEM ON',
+  '0/1': 'TV ON',
+  '0/2': 'VIDEO PC',
+  '0/3': 'LIGHT ON',
+  '0/4': 'VOLUME UP',
+  '1/0': 'SYSTEM OFF',
+  '1/1': 'TV OFF',
+  '1/2': 'VIDEO LAPTOP',
+  '1/3': 'LIGHT OFF',
+  '1/4': 'VOLUME DOWN',
+  '2/0': 'FOCUS',
+  '2/1': 'PRESENT',
+  '2/2': 'MEDIA',
+  '2/3': 'LIGHTS',
+  '2/4': 'OFF',
+};
+
 function arg(name, fallback = '') {
   const index = process.argv.indexOf(`--${name}`);
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
@@ -57,8 +75,7 @@ async function iconInner(name) {
   return inner;
 }
 
-function keyHtml({ label, icon, c1, c2 }) {
-  const fontSize = label.length >= 12 ? 22 : 26;
+function keyHtml({ icon, c1, c2 }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
     * { box-sizing: border-box; }
     html, body { margin: 0; width: ${KEY_SIZE}px; height: ${KEY_SIZE}px; background: transparent; overflow: hidden; }
@@ -84,21 +101,15 @@ function keyHtml({ label, icon, c1, c2 }) {
     }
     .noise { position: absolute; inset: 0; opacity: 0.07; mix-blend-mode: overlay; }
     .glow {
-      position: absolute; left: 50%; top: 36%; width: 124px; height: 124px;
+      position: absolute; left: 50%; top: 35%; width: 172px; height: 172px;
       transform: translate(-50%, -50%); border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.38), transparent 66%);
-      filter: blur(7px);
+      background: radial-gradient(circle, rgba(255,255,255,0.40), transparent 66%);
+      filter: blur(8px);
     }
     .icon {
-      position: absolute; left: 50%; top: 38%; width: 66px; height: 66px;
+      position: absolute; left: 50%; top: 36%; width: 96px; height: 96px;
       transform: translate(-50%, -50%); fill: #ffffff;
-      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.38));
-    }
-    .label {
-      position: absolute; left: 12px; right: 12px; bottom: 24px;
-      text-align: center; color: #ffffff; font-weight: 700; font-size: ${fontSize}px;
-      line-height: 1.12; letter-spacing: 1.3px; text-transform: uppercase;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.50);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.42));
     }
     .pill {
       position: absolute; top: 20px; left: 50%; width: 36px; height: 4px;
@@ -113,13 +124,12 @@ function keyHtml({ label, icon, c1, c2 }) {
       </svg>
       <div class="glow"></div>
       <svg class="icon" viewBox="0 0 24 24">${icon}</svg>
-      <div class="label">${label}</div>
       <div class="pill"></div>
     </div>
   </body></html>`;
 }
 
-function touchHtml({ label, icon, col, thumb }) {
+function touchHtml({ icon, col, thumb }) {
   const radius = col === 0 ? '28px 0 0 28px' : col === 4 ? '0 28px 28px 0' : '0';
   const divider = col === 4 ? 'none' : '1px solid rgba(255,255,255,0.10)';
   return `<!doctype html><html><head><meta charset="utf-8"><style>
@@ -156,16 +166,9 @@ function touchHtml({ label, icon, col, thumb }) {
       box-shadow: 0 0 16px rgba(255,255,255,0.65);
     }
     .icon {
-      position: absolute; left: 30px; top: 50%; width: 46px; height: 46px;
+      position: absolute; left: 24px; top: 50%; width: 64px; height: 64px;
       transform: translateY(-50%); fill: #ffffff;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.38));
-    }
-    .label {
-      position: absolute; left: 92px; right: 24px; top: 50%;
-      transform: translateY(-50%); color: #ffffff; font-weight: 700; font-size: 24px;
-      letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.50);
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.40));
     }
   </style></head><body>
     <div class="button">
@@ -178,7 +181,6 @@ function touchHtml({ label, icon, col, thumb }) {
       <div class="track"></div>
       ${thumb ? '<div class="thumb"></div>' : ''}
       <svg class="icon" viewBox="0 0 24 24">${icon}</svg>
-      <div class="label">${label}</div>
     </div>
   </body></html>`;
 }
@@ -216,6 +218,27 @@ function canvasLayer(existing) {
   };
 }
 
+function companionText(label, isTouch) {
+  const display = isTouch ? label : label.replace(' ', '\n');
+  const layer = makeTextLayer(display, '#ffffff', isTouch ? 65 : 55);
+  if (isTouch) {
+    layer.x.value = 28;
+    layer.y.value = 0;
+    layer.width.value = 70;
+    layer.height.value = 100;
+    layer.halign.value = 'left';
+    layer.valign.value = 'center';
+  } else {
+    layer.x.value = 0;
+    layer.y.value = 62;
+    layer.width.value = 100;
+    layer.height.value = 38;
+    layer.halign.value = 'center';
+    layer.valign.value = 'center';
+  }
+  return layer;
+}
+
 const response = await fetch(`${BASE}/int/export/full?format=json`, { signal: AbortSignal.timeout(30000) });
 if (!response.ok) throw new Error(`Companion export failed: HTTP ${response.status}`);
 const companion = await response.json();
@@ -232,10 +255,14 @@ for (const [row, columns] of Object.entries(controls)) {
   for (const [column, control] of Object.entries(columns)) {
     const layers = control.style?.layers;
     if (!Array.isArray(layers)) continue;
-    const textLayer = layers.find((layer) => layer.type === 'text');
-    if (!textLayer) continue;
-
-    const label = String(textLayer.text?.value || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    const existingText = layers.find((layer) => layer.type === 'text');
+    const label = existingText
+      ? String(existingText.text?.value || '').replace(/\s+/g, ' ').trim().toUpperCase()
+      : LABEL_BY_POSITION[`${row}/${column}`];
+    if (!label) {
+      console.log(`  skip ${row}/${column}: no label`);
+      continue;
+    }
     const theme = THEMES[label];
     if (!theme) {
       console.log(`  skip ${row}/${column}: no theme for "${label}"`);
@@ -251,7 +278,7 @@ for (const [row, columns] of Object.entries(controls)) {
       const col = Number(column);
       const thumb = label === 'MEDIA';
       const png = await rasterizeHtml({
-        html: touchHtml({ label, icon, col, thumb }),
+        html: touchHtml({ icon, col, thumb }),
         width: TOUCH_WIDTH,
         height: TOUCH_HEIGHT,
         name: `touch-${col}`,
@@ -261,7 +288,7 @@ for (const [row, columns] of Object.entries(controls)) {
       previewSize = { width: 176, height: 124 };
     } else {
       const png = await rasterizeHtml({
-        html: keyHtml({ label, icon, c1: theme.c1, c2: theme.c2 }),
+        html: keyHtml({ icon, c1: theme.c1, c2: theme.c2 }),
         width: KEY_SIZE,
         height: KEY_SIZE,
         name: `key-${label}`,
@@ -271,8 +298,12 @@ for (const [row, columns] of Object.entries(controls)) {
       previewSize = { width: 112, height: 112 };
     }
 
-    control.style.layers = [canvasLayer(layers.find((layer) => layer.type === 'canvas')), fullImageLayer(dataUrl)];
-    previews.push({ row, column, label, dataUrl, ...previewSize });
+    control.style.layers = [
+      canvasLayer(layers.find((layer) => layer.type === 'canvas')),
+      fullImageLayer(dataUrl),
+      companionText(label, isTouch),
+    ];
+    previews.push({ row, column, label, dataUrl, isTouch, ...previewSize });
     console.log(`  ${row}/${column}  ${label}  ->  ${theme.icon}`);
   }
 }
@@ -300,17 +331,27 @@ const sheet = `<!doctype html><html><head><meta charset="utf-8"><style>
   h1 { font-size: 20px; margin: 0 0 18px; font-weight: 700; }
   h2 { font-size: 12px; letter-spacing: 2px; color: #8b98a5; text-transform: uppercase; margin: 22px 0 10px; }
   .keys { display: grid; grid-template-columns: repeat(5, 112px); gap: 14px; }
+  .cell { position: relative; width: 112px; height: 112px; }
+  .cell img { display: block; width: 112px; height: 112px; }
+  .cap {
+    position: absolute; left: 0; right: 0; bottom: 11px; text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; line-height: 1.08;
+    color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.65);
+  }
   .touch { display: flex; gap: 0; }
-  img { display: block; border-radius: 10px; }
-  .touch img { border-radius: 0; }
-  .touch img:first-child { border-radius: 12px 0 0 12px; }
-  .touch img:last-child { border-radius: 0 12px 12px 0; }
+  .tcell { position: relative; width: 176px; height: 124px; }
+  .tcell img { display: block; width: 176px; height: 124px; }
+  .tcap {
+    position: absolute; left: 46px; right: 10px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #fff;
+    text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.65);
+  }
 </style></head><body>
   <h1>MiraBox N4 Pro — Aurora Glass</h1>
   <h2>Keys</h2>
-  <div class="keys">${keys.map((entry) => `<img src="${entry.dataUrl}" width="112" height="112">`).join('')}</div>
+  <div class="keys">${keys.map((entry) => `<div class="cell"><img src="${entry.dataUrl}" width="112" height="112"><span class="cap">${entry.label.split(' ').join('<br>')}</span></div>`).join('')}</div>
   <h2>Touch bar</h2>
-  <div class="touch">${touch.map((entry) => `<img src="${entry.dataUrl}" width="176" height="124">`).join('')}</div>
+  <div class="touch">${touch.map((entry) => `<div class="tcell"><img src="${entry.dataUrl}" width="176" height="124"><span class="tcap">${entry.label}</span></div>`).join('')}</div>
 </body></html>`;
 
 await fs.mkdir(path.dirname(PREVIEW), { recursive: true });

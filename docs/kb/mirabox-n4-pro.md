@@ -84,13 +84,16 @@ Companion does not support animated GIF icons in the button renderer
 ## Modern button images
 
 Page 8 uses the **Aurora Glass** design: vibrant gradients, a translucent glass
-panel, a grainy texture, a large white icon, and a baked-in label. Each key is a
-224×224 image (2× the 112×112 key); each touch segment is 352×248 (2× the
-176×124 strip). Buttons have a single full-size image layer, so the design is
-identical on the device and in the preview.
+panel, a grainy texture, and a large white icon. The button images contain
+**no text**; each button has an editable Companion text layer on top. Keys use a
+two-line label; the touch bar uses a single-line label to the right of the icon.
+
+Each key image is 224×224 (2× the 112×112 key); each touch segment is 352×248
+(2× the 176×124 strip). Icons are 96 px on keys and 64 px on the touch strip.
 
 The five touch segments share one continuous gradient and a white track; the
-center **MEDIA** segment carries the thumb indicator.
+center **MEDIA** segment carries the thumb indicator. The preview contact sheet
+overlays the labels for illustration; the applied images are text-free.
 
 ```bash
 node tools/mirabox-button-images.mjs --apply
