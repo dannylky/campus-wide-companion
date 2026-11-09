@@ -217,7 +217,31 @@ True animation without the MiraBox app requires a host-side compositor:
 
 That is the approach used by the OpenDeck `video background` fork. It needs to
 take over key painting (Companion writes its own images), so it is a separate
-driver/compositor or a surface-module fork rather than a small script.
+driver/compositor or a surface-module fork.
+
+### BAT compositor
+
+`tools/mirabox-animated-background.mjs` implements the compositor:
+
+```bash
+node tools/mirabox-animated-background.mjs --fps 5
+node tools/mirabox-animated-background.mjs --fps 10 --speed 4
+node tools/mirabox-animated-background.mjs --dry-run
+node tools/mirabox-animated-background.mjs --no-face
+```
+
+- Renders a scrolling aurora background, slices the 10 key tiles and 4
+  touch-strip windows, composites white icon/text overlays with luminance
+  keying, rotates each tile 180°, and streams them via `BAT`.
+- At startup it builds a matching 800×480 face and flashes it with `LOG` so the
+  bezel gaps match; use `--no-face` to skip the flash write.
+- `--dry-run` writes `out/animated-background-preview.png` and does not touch
+  the device.
+- It takes over key painting while running. Companion still handles button
+  presses/rotations. Stop with Ctrl+C; Companion repaints its buttons on the
+  next update.
+- The overlays are currently static labels; dynamic state text (light/volume)
+  is not yet wired.
 
 ## Files
 
@@ -230,6 +254,7 @@ driver/compositor or a surface-module fork rather than a small script.
 - `tools/mirabox-light-demo.mjs` — builds and tests the four-zone light demo.
 - `tools/mirabox-knob-led.mjs` — drives the four knob ring LEDs over HID.
 - `tools/mirabox-background.mjs` — flashes a static 800×480 full-face background.
+- `tools/mirabox-animated-background.mjs` — streams the animated BAT compositor.
 
 ## Re-apply
 
