@@ -145,12 +145,17 @@ async function getVar(name) {
 
 async function demoColors() {
   const colors = [];
-  for (let zone = 1; zone <= 4; zone += 1) {
+  for (let zone = 1; zone <= 2; zone += 1) {
     const on = await getVar(`demo_z${zone}_on`);
     const level = Number(await getVar(`demo_z${zone}_level`));
     const base = hexToRgb(ZONE_COLORS[zone - 1]);
     colors.push(String(on) === '1' ? scaleRgb(base, level) : [0, 0, 0]);
   }
+
+  const volume = Number(await getVar('demo_volume')) || 0;
+  const mute = String(await getVar('demo_volume_mute')) === '1';
+  colors.push(mute ? [255, 59, 48] : scaleRgb(hexToRgb('#00d4ff'), volume));
+  colors.push(mute ? [255, 59, 48] : scaleRgb(hexToRgb('#00ffc8'), volume));
   return colors;
 }
 

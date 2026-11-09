@@ -121,6 +121,72 @@ function knobControl(zone, backgroundImage, canvas) {
   };
 }
 
+function volumeKnobControl(direction, backgroundImage, canvas) {
+  const isUp = direction === 'up';
+  const toggleMute = setVarAction('demo_volume_mute', '1 - $(custom:demo_volume_mute)');
+  const bump = setVarAction('demo_press_count', '$(custom:demo_press_count) + 1');
+  const unmute = setVarAction('demo_volume_mute', '0');
+  const delta = 'max($(this:delta), -$(this:delta))';
+  const adjust = setVarAction(
+    'demo_volume',
+    isUp
+      ? `min(100, max(0, $(custom:demo_volume) + ${delta}))`
+      : `min(100, max(0, $(custom:demo_volume) - ${delta}))`,
+  );
+  const glowColor = isUp ? '0x00ffc8' : '0x00d4ff';
+  const glow = {
+    ...boxLayer(isUp ? '#00ffc8' : '#00d4ff'),
+    id: 'glow',
+    name: 'Glow',
+    color: expr(`bool($(custom:demo_volume_mute)) ? 0xff3b30 : ${glowColor}`),
+    opacity: expr('bool($(custom:demo_volume_mute)) ? 70 : 10 + $(custom:demo_volume) * 0.8'),
+  };
+  const text = textLayer('', '#ffffff', 50);
+  text.text = expr(
+    "bool($(custom:demo_volume_mute)) ? 'VOL\\nMUTE' : " +
+      '`VOL\\n${$(custom:demo_volume)}%`',
+  );
+  text.x.value = 0;
+  text.y.value = 62;
+  text.width.value = 100;
+  text.height.value = 38;
+  text.halign.value = 'center';
+  text.valign.value = 'center';
+  text.fontsize.value = 50;
+
+  return {
+    type: 'button-layered',
+    style: {
+      layers: [
+        { ...canvas, decoration: value('none') },
+        JSON.parse(JSON.stringify(backgroundImage)),
+        glow,
+        text,
+      ],
+    },
+    options: {
+      stepProgression: 'auto',
+      stepExpression: '',
+      rotaryActions: true,
+      canModifyStyleInApis: false,
+      notes: '',
+    },
+    feedbacks: [],
+    steps: {
+      0: {
+        action_sets: {
+          down: [toggleMute, bump],
+          up: [],
+          rotate_left: [unmute, adjust],
+          rotate_right: [unmute, adjust],
+        },
+        options: { runWhileHeld: [] },
+      },
+    },
+    localVariables: [],
+  };
+}
+
 function masterControl(existing) {
   const control = JSON.parse(JSON.stringify(existing));
   control.style.layers = control.style.layers.filter(
@@ -129,12 +195,9 @@ function masterControl(existing) {
 
   const onExpr =
     '(bool($(custom:demo_z1_on)) ? 1 : 0) + ' +
-    '(bool($(custom:demo_z2_on)) ? 1 : 0) + ' +
-    '(bool($(custom:demo_z3_on)) ? 1 : 0) + ' +
-    '(bool($(custom:demo_z4_on)) ? 1 : 0)';
+    '(bool($(custom:demo_z2_on)) ? 1 : 0)';
   const avgExpr =
-    '($(custom:demo_z1_level) + $(custom:demo_z2_level) + ' +
-    '$(custom:demo_z3_level) + $(custom:demo_z4_level)) / 4';
+    '($(custom:demo_z1_level) + $(custom:demo_z2_level)) / 2';
 
   const glow = {
     ...boxLayer('#ffb347'),
@@ -146,7 +209,7 @@ function masterControl(existing) {
   const text = control.style.layers.find((layer) => layer.type === 'text');
   if (text) {
     text.text = expr(
-      `on = ${onExpr}; avg = ${avgExpr}; ` + '`LIGHTS ${on}/4 · ${round(avg)}%`',
+      `on = ${onExpr}; avg = ${avgExpr}; ` + '`LIGHTS ${on}/2 · ${round(avg)}%`',
     );
     text.x.value = 28;
     text.y.value = 0;
@@ -161,9 +224,8 @@ function masterControl(existing) {
   control.style.layers.splice(textIndex < 0 ? control.style.layers.length : textIndex, 0, glow);
 
   const allExpr =
-    'all = bool($(custom:demo_z1_on)) && bool($(custom:demo_z2_on)) && ' +
-    'bool($(custom:demo_z3_on)) && bool($(custom:demo_z4_on)); all ? 0 : 1';
-  control.steps[0].action_sets.down = [1, 2, 3, 4].map((zone) =>
+    'all = bool($(custom:demo_z1_on)) && bool($(custom:demo_z2_on)); all ? 0 : 1';
+  control.steps[0].action_sets.down = [1, 2].map((zone) =>
     setVarAction(`demo_z${zone}_on`, allExpr),
   );
   control.steps[0].action_sets.up = [];
@@ -194,6 +256,18 @@ function demoVariables() {
       sortOrder: (zone - 1) * 2 + 2,
     };
   }
+  vars.demo_volume = {
+    description: 'Demo volume level',
+    defaultValue: '50',
+    persistCurrentValue: false,
+    sortOrder: 10,
+  };
+  vars.demo_volume_mute = {
+    description: 'Demo volume mute',
+    defaultValue: '0',
+    persistCurrentValue: false,
+    sortOrder: 11,
+  };
   return vars;
 }
 
@@ -232,6 +306,8 @@ async function press(page, row, column, action = 'press') {
 
 async function resetDemo() {
   await setVar('demo_press_count', '0');
+  await setVar('demo_volume', '50');
+  await setVar('demo_volume_mute', '0');
   for (let zone = 1; zone <= 4; zone += 1) {
     await setVar(`demo_z${zone}_on`, '0');
     await setVar(`demo_z${zone}_level`, '50');
@@ -287,10 +363,27 @@ async function testDemo() {
   if ((await getVar('demo_z1_on')) !== '0') throw new Error('LIGHT ON mirror did not toggle zone 1');
 
   await press(PAGE_8, 2, 3, 'press');
-  for (let zone = 1; zone <= 4; zone += 1) {
+  for (let zone = 1; zone <= 2; zone += 1) {
     if ((await getVar(`demo_z${zone}_on`)) !== '1') {
       throw new Error(`master did not turn on zone ${zone}`);
     }
+  }
+
+  await setVar('demo_volume', '50');
+  await setVar('demo_volume_mute', '0');
+  await press(PAGE_8, 3, 2, 'press');
+  if ((await getVar('demo_volume_mute')) !== '1') throw new Error('volume down press did not mute');
+  await press(PAGE_8, 3, 2, 'press');
+  if ((await getVar('demo_volume_mute')) !== '0') throw new Error('volume down press did not unmute');
+
+  await press(PAGE_8, 3, 3, 'rotate-right');
+  const upVolume = Number(await getVar('demo_volume'));
+  if (!(upVolume > 50)) throw new Error(`volume up rotate did not raise volume: ${upVolume}`);
+
+  await press(PAGE_8, 3, 2, 'rotate-left');
+  const downVolume = Number(await getVar('demo_volume'));
+  if (!(downVolume < upVolume)) {
+    throw new Error(`volume down rotate did not lower volume: ${downVolume}`);
   }
 
   await resetDemo();
@@ -311,27 +404,28 @@ if (!page8) throw new Error(`Page ${PAGE_8} not found`);
 await fs.writeFile(BACKUP, `${JSON.stringify(companion, null, 2)}\n`, 'utf8');
 
 const controls = JSON.parse(JSON.stringify(page8.controls || {}));
-const lightOn = controls['0']?.['3'];
-if (!lightOn) throw new Error('LIGHT ON button at 0/3 not found');
+if (!controls['0']?.['3']) throw new Error('LIGHT ON button at 0/3 not found');
 
-let sourceButton = lightOn;
-if (!sourceButton.style?.layers) {
-  const modernPath = path.join(ROOT, 'config/public/layouts/mirabox-n4-pro-modern.json');
-  const modern = JSON.parse(await fs.readFile(modernPath, 'utf8'));
-  sourceButton = modern.pages?.['1']?.controls?.['0']?.['3'];
-  if (!sourceButton?.style?.layers) {
-    throw new Error('Aurora Glass LIGHT ON image not found in the modern layout artifact');
-  }
+const modernPath = path.join(ROOT, 'config/public/layouts/mirabox-n4-pro-modern.json');
+const modern = JSON.parse(await fs.readFile(modernPath, 'utf8'));
+const modernPage = modern.pages?.['1'];
+const imageFrom = (row, column) =>
+  modernPage?.controls?.[row]?.[column]?.style?.layers?.find((layer) => layer.type === 'image');
+const canvas = modernPage?.controls?.['0']?.['3']?.style?.layers?.find(
+  (layer) => layer.type === 'canvas',
+);
+const lightImage = imageFrom('0', '3');
+const volUpImage = imageFrom('0', '4');
+const volDownImage = imageFrom('1', '4');
+if (!canvas || !lightImage || !volUpImage || !volDownImage) {
+  throw new Error('Aurora Glass images not found in the modern layout artifact');
 }
-
-const backgroundImage = sourceButton.style.layers.find((layer) => layer.type === 'image');
-const canvas = sourceButton.style.layers.find((layer) => layer.type === 'canvas');
-if (!backgroundImage || !canvas) throw new Error('LIGHT ON image/canvas layer not found');
 
 controls['3'] = controls['3'] || {};
-for (let zone = 1; zone <= 4; zone += 1) {
-  controls['3'][String(zone - 1)] = knobControl(zone, backgroundImage, canvas);
-}
+controls['3']['0'] = knobControl(1, lightImage, canvas);
+controls['3']['1'] = knobControl(2, lightImage, canvas);
+controls['3']['2'] = volumeKnobControl('down', volDownImage, canvas);
+controls['3']['3'] = volumeKnobControl('up', volUpImage, canvas);
 controls['0']['3'] = referenceControl(PAGE_8, 3, 0);
 controls['1']['3'] = referenceControl(PAGE_8, 3, 1);
 controls['2']['3'] = masterControl(controls['2']['3']);
@@ -369,7 +463,7 @@ await fs.writeFile(PAGE8_CONFIG, `${JSON.stringify(config8, null, 2)}\n`, 'utf8'
 await fs.writeFile(PAGE9_CONFIG, `${JSON.stringify(config9, null, 2)}\n`, 'utf8');
 
 console.log(`Demo variables: ${Object.keys(demoVariables()).join(', ')}`);
-console.log(`Knob buttons:   page ${PAGE_8} 3/0-3/3`);
+console.log(`Knob buttons:   page ${PAGE_8} 3/0-3/1 light, 3/2 volume down, 3/3 volume up`);
 console.log(`Mirrors:        LIGHT ON -> ${PAGE_8}/3/0, LIGHT OFF -> ${PAGE_8}/3/1, LIGHTS -> master`);
 console.log(`Wrote:          ${path.relative(ROOT, PAGE8_CONFIG)}`);
 console.log(`Wrote:          ${path.relative(ROOT, PAGE9_CONFIG)}`);
